@@ -1,6 +1,7 @@
 <template>
-    <div class="page-container">
+    <div id="app">
         <Header />
+        <router-view></router-view>
     </div>
 </template>
 
@@ -12,7 +13,7 @@ import Header from '../components/Header.vue';
     components: {
         Header
     }
-}) 
+})
 export default class App extends Vue {
     public name = 'App';
 }
@@ -20,5 +21,5 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss" scoped>
-@import "../scss/styles";
+@import '../scss/styles';
 </style>

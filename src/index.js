@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import App from './pages/App.vue';
-import store from './store';
+import router from './router';
 
 new Vue({
     el:'#app',
-    name: 'App',
-    store,
+    name: 'FitFusion',
+    router,
     render: h => h(App)
 })
