@@ -1,0 +1,46 @@
+<template>
+    <header class="header">
+        <HeaderLogo /> 
+        <HeaderNav />
+        <button class="header-btn">Register Now</button>
+    </header>
+</template>
+
+<script lang="ts">
+import { Vue, Component} from 'vue-property-decorator';
+import HeaderLogo from './HeaderLogo.vue';
+import HeaderNav from './HeaderNav.vue';
+
+@Component({
+    components: {
+        HeaderLogo,
+        HeaderNav
+    }
+})
+export default class Header extends Vue {
+    public name = 'Header';   
+
+}
+</script>
+
+<style lang="scss" scoped>
+@import '../scss/styles';
+
+.header {
+    @include flex($direction: row, $justify-content: space-between, $align-items: center);
+    @include size($width: 100%, $height: 6rem);
+    background-color: $theme-background;
+
+    box-sizing: border-box;
+}
+
+.header-btn {
+    background-color: $theme-color;
+    font-weight: 600;
+    font-family:'Courier New', Courier, monospace;
+    padding: 0.5rem 1rem;
+    border: none;
+    cursor: pointer;
+    border-radius: 0.3rem; 
+}
+</style>
