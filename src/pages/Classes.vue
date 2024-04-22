@@ -3,6 +3,7 @@
         <h2 class="classes-section__title">OUR CLASSES</h2>
         <ul class="classes">
             <li class="class">
+                <button class="class__subscribe-button">Subscribe</button>
                 <img 
                     src="assets/images/deadlift.webp" 
                     class="class__image" 
@@ -13,6 +14,7 @@
             </li>
 
             <li class="class">
+                <button class="class__subscribe-button">Subscribe</button>
                 <img 
                     src="assets/images/cardio.webp" 
                     class="class__image" 
@@ -23,6 +25,7 @@
             </li>
 
             <li class="class">
+                <button class="class__subscribe-button">Subscribe</button>
                 <img 
                     src="assets/images/strength-training.webp" 
                     class="class__image" 
@@ -33,6 +36,7 @@
             </li>
 
             <li class="class">
+                <button class="class__subscribe-button">Subscribe</button>
                 <img 
                     src="assets/images/boxing.webp" 
                     class="class__image" 
@@ -43,6 +47,7 @@
             </li>
 
             <li class="class">
+                <button class="class__subscribe-button">Subscribe</button>
                 <img 
                     src="assets/images/spa.webp" 
                     class="class__image" 
@@ -107,6 +112,24 @@ export default class Classes extends Vue {
     &__description {
         color: rgb(142, 140, 140);
         font-size: 1rem;
+    }
+
+    &__subscribe-button {
+        position: relative;
+        top: 12%;
+        left: 72%;
+        background-color: $theme-color;
+        color: $black;
+        padding: 0.3rem 0.6rem;
+        border: none;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        z-index: 1; 
+    }
+
+    &__subscribe-button:hover {
+        background-color: $theme-color-hover;  
+        transition: all .2s ease-in;
     }
 }
 
