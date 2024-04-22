@@ -165,7 +165,10 @@ export default class Footer extends Vue {
         border-radius: 0.3rem; 
     }
 
-
+    &__button:hover {
+        background-color: $theme-color-hover;
+        transition: all .2s ease-in
+    }
 }
 
 </style>

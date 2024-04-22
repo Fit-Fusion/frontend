@@ -300,6 +300,11 @@ export default class Store extends Vue {
         font-weight: 600;
     }
 
+    &__button:hover {
+        background-color: $theme-color-hover;
+        transition: all .2s ease-in
+    }
+
     &__shopping-bag {
         height: 1.7rem;
         border-radius: .4rem;

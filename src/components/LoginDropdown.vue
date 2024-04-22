@@ -57,6 +57,11 @@ export default class LoginDropdown extends Vue {
         border-radius: 0.3rem;
     }
 
+    &__toggle-btn:hover {
+        background-color: $theme-color-hover;
+        transition: all .2s ease-in
+    }
+
    &__content {
         position: absolute;
         top: 100%;

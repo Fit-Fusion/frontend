@@ -145,6 +145,11 @@ export default class TrainerLogin extends Vue {
             cursor: pointer;
             border-radius: 0.3rem;
         }
+
+        &-button:hover {
+            background-color: $theme-color-hover;
+            transition: all .2s ease-in
+        }
     }
 }
 </style>
