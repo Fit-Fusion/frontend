@@ -3,20 +3,23 @@
         <MainSection />
         <ServicesSection />
         <SubscriptionSection />
+        <ReviewSection />
     </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import MainSection from '../components/MainSection.vue';
-import ServicesSection from '../components/ServicesSection.vue';
-import SubscriptionSection from '../components/Subscriptions.vue';
+import MainSection from '../components/sections/Main.vue';
+import ServicesSection from '../components/sections/Services.vue';
+import SubscriptionSection from '../components/sections/Subscriptions.vue';
+import ReviewSection from '../components/sections/Review.vue';
 
 @Component({
     components: {
         MainSection,
         ServicesSection,
-        SubscriptionSection
+        SubscriptionSection,
+        ReviewSection
     }
 }) 
 export default class Home extends Vue {
