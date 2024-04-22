@@ -70,7 +70,10 @@ export default class SubscriptionSection extends Vue {
 @import '../../scss/styles';
 
 .subscriptions-section {
-    background: rgba(7, 7, 7, 0.5);
+    background: url('/assets/images/subscription-bg.webp');
+    background-size: cover;
+    padding-top: 1.5rem;
+
     &__title {
         text-align: center;
         color: $white;
@@ -87,11 +90,7 @@ export default class SubscriptionSection extends Vue {
 }
 
 .subscription {
-    background: linear-gradient(
-      45deg,
-      rgba(14, 30, 14, 0.5),
-      rgba(7, 7, 7, 0.5)
-    ), url("/assets/images/test.jpg");
+    background: rgba(13, 14, 13, 0.5);
     border-radius: 1rem 1rem 0 0;
     text-align: center;
     width: 25rem;

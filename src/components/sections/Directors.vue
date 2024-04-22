@@ -13,15 +13,6 @@
             </li>
             <li class="director">
                 <img 
-                    src="assets/images/director2.webp" 
-                    class="director__image" 
-                    alt="Kirill Avgustinovich"
-                />
-                <p class="director__name">Kirill Avgustinovich</p>
-                <p class="director__title">Managing Director</p>
-            </li>
-            <li class="director">
-                <img 
                     src="assets/images/director3.webp" 
                     class="director__image" 
                     alt="katya Maximovich"
@@ -29,6 +20,16 @@
                 <p class="director__name">katya Maximovich</p>
                 <p class="director__title">Finance Director</p>
             </li>
+            <li class="director">
+                <img 
+                    src="assets/images/director2.webp" 
+                    class="director__image" 
+                    alt="Kirill Avgustinovich"
+                />
+                <p class="director__name">Kirill Avgustinovich</p>
+                <p class="director__title">Managing Director</p>
+            </li>
+
         </ul>
     </section>
 </template>
@@ -70,9 +71,11 @@ export default class DirectorsSection extends Vue {
     text-align: center;
 
     &__image {
-        width: 25rem;
-        height: 25rem;
-        margin: 1rem;
+        width: 20rem;
+        height: 20rem;        
+        object-fit: cover;
+        object-position: center;
+        margin: 0.7rem;
         border: .2rem solid $theme-color;
     }
 

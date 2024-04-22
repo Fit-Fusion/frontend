@@ -207,7 +207,6 @@ export default class ReviewSection extends Vue {
 @import '../../scss/styles';
 
 .review-section {
-    background: url("/assets/images/test.jpg");
     background-size: cover;
     padding-bottom: 1rem;
     margin-bottom: 3.5rem;

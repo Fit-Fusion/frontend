@@ -4,8 +4,8 @@
             <h3 class="service__title">Weight Lifting</h3>
             <p class="service__description">Train like an athlete with our challenging and effective crossfit program.</p>
         </div>
-        <div class="service service__crossfit">
-            <h3 class="service__title">Crossfit</h3>
+        <div class="service service__strength-training">
+            <h3 class="service__title">Strength Training</h3>
             <p class="service__description">Train like an athlete with our challenging and effective crossfit program.</p>
         </div>
         <div class="service service__boxing">
@@ -29,12 +29,13 @@ import { Vue, Component} from 'vue-property-decorator';
 @Component
 export default class ServicesSection extends Vue {
     public name = 'ServicesSection';  
-
+    
 }
 </script>
 
 <style lang="scss" scoped>
 @import '../../scss/styles';
+
 
 .service {
     position: relative;
@@ -43,30 +44,51 @@ export default class ServicesSection extends Vue {
     align-items: center;
     justify-content: center;
     height: 70%;
-    margin-top: 1.5rem;
+    margin: 1.5rem auto;
+    background-size: cover;
 
     &__weight {
-        background: url("/assets/images/test.jpg");
+        background: 
+        linear-gradient(
+            rgba(0, 0, 0, 0.6),
+            rgba(0, 0, 0, 0.6)
+        ),url("/assets/images/deadlift.webp");
         background-size: cover;
     }
 
-    &__crossfit {
-        background: url("/assets/images/test.jpg");
+    &__strength-training {
+        background: linear-gradient(
+            rgba(0, 0, 0, 0.6),
+            rgba(0, 0, 0, 0.6)
+        ),
+        url("/assets/images/strength-training.webp");
         background-size: cover; 
     }
 
     &__boxing {
-        background: url("/assets/images/test.jpg");
+        background: 
+        linear-gradient(
+            rgba(0, 0, 0, 0.6),
+            rgba(0, 0, 0, 0.6)
+        ),url("/assets/images/boxing.webp");
         background-size: cover;
     }
 
     &__cardio {
-        background: url("/assets/images/test.jpg");
+        background: 
+            linear-gradient(
+            rgba(0, 0, 0, 0.6),
+            rgba(0, 0, 0, 0.6)
+        ), url("/assets/images/cardio.webp");
         background-size: cover; 
     }
 
     &__spa {
-        background: url("/assets/images/test.jpg");
+        background: 
+        linear-gradient(
+            rgba(0, 0, 0, 0.6),
+            rgba(0, 0, 0, 0.6)
+        ), url("/assets/images/spa.webp");
         background-size: cover; 
     }
 
@@ -95,6 +117,7 @@ export default class ServicesSection extends Vue {
         transform: translateX(100%); /* Slides description in from right */
         animation: slide-in-right 4s ease-in-out forwards;
     }
+    
 }
 
 @keyframes fade-in {
