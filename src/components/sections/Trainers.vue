@@ -6,9 +6,9 @@
                 <img 
                     src="assets/images/trainer1.webp" 
                     class="trainer__image" 
-                    alt="Alexander Alexandrovich"
+                    alt="Victoria Alexandrovna"
                 />
-                <p class="trainer__name">Alexander Alexandrovich</p>
+                <p class="trainer__name">Victoria Alexandrovna</p>
             </li>
             <li class="trainer">
                 <img 
@@ -22,9 +22,25 @@
                 <img 
                     src="assets/images/trainer3.webp" 
                     class="trainer__image" 
-                    alt="Alexander Alexandrovich"
+                    alt="Anna Alexandrovich"
                 />
-                <p class="trainer__name">Viktoriya Maximovich</p>
+                <p class="trainer__name">Anna Maximovich</p>
+            </li>
+            <li class="trainer">
+                <img 
+                    src="assets/images/trainer4.webp" 
+                    class="trainer__image" 
+                    alt="Samuel Igorevich"
+                />
+                <p class="trainer__name">Samuel Igorevich</p>
+            </li>
+            <li class="trainer">
+                <img 
+                    src="assets/images/trainer5.webp" 
+                    class="trainer__image" 
+                    alt="Valeria Burundi"
+                />
+                <p class="trainer__name">Valeria Burundi</p>
             </li>
         </ul>
     </section>
@@ -51,7 +67,6 @@ export default class TrainersSection extends Vue {
         color: $white;
         padding: 2rem;
         font-size: 2.5rem;
-
     }
 }
 
@@ -66,11 +81,11 @@ export default class TrainersSection extends Vue {
     text-align: center;
 
     &__image {
-        width: 25rem;
-        height: 25rem;
+        width: 20rem;
+        height: 20rem;
         object-fit: cover;
         object-position: center;
-        margin: 1rem;
+        margin: .6rem;
         border: .2rem solid $theme-color;
     }
 
