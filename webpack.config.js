@@ -1,5 +1,4 @@
 const path = require('path');
-// const fs = require('fs');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -32,7 +31,6 @@ const extractHTML = new HtmlWebpackPlugin({
     imgPath: (!buildingForLocal()) ? 'assets' : 'src/assets'
 });
 
-
 const config = {
     optimization: {
         runtimeChunk: false,
@@ -54,9 +52,7 @@ const config = {
     plugins: [
         extractHTML,
         new MiniCssExtractPlugin({
-            // Options similar to the same options in webpackOptions.output
-            // both options are optional
-            filename: "css/styles.[hash].css",
+            filename: "css/styles.cumm.css",
             chunkFilename: "[id].css"
         }),
         new webpack.DefinePlugin({
@@ -71,10 +67,10 @@ const config = {
                     from: './src/icons',
                     to: 'assets/icons'
                 },
-                // {
-                //     from: './src/data',
-                //     to: 'data/templates.json'
-                // }
+                {
+                    from: './src/images',
+                    to: 'assets/images'
+                }
             ]
         ),
         new VueLoaderPlugin()
@@ -138,7 +134,7 @@ const config = {
                 loader: 'svg-sprite-loader'
             },
             {
-                test: /\.(png|jpg|gif|svg)$/,
+                test: /\.(png|jpg|gif|svg|webp)$/,
                 loader: 'file-loader',
                 query: {
                     name: '[name].[ext]?[hash]',
