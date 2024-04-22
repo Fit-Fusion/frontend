@@ -2,28 +2,39 @@
     <ul class="header-nav">
         <li class="header-nav__item">
             <router-link 
-                to="/coaches"
-                class="header-nav__link"    
+                to="/about" 
+                class="header-nav__link"
+                :class="{ 'active': $route.path === '/about' }"
             >
-                Coaches
+                Our Team
             </router-link>
         </li>
         <li class="header-nav__item">
             <router-link 
-                to="/about" 
-                class="header-nav__link"  
+                to="/classes" 
+                class="header-nav__link"
+                :class="{ 'active': $route.path === '/classes' }"
             >
-                About Us
+                Classes
             </router-link>
         </li>
         <li class="header-nav__item">
-            <router-link to="/pricing" class="header-nav__link" >Pricing</router-link>
+            <router-link 
+                to="/store"  
+                class="header-nav__link"
+                :class="{ 'active': $route.path === '/store' }"
+            >
+                Store
+            </router-link>
         </li>
         <li class="header-nav__item">
-            <router-link to="/store" class="header-nav__link" >Store</router-link>
-        </li>
-        <li class="header-nav__item">
-            <router-link to="/blog" class="header-nav__link" >Blog</router-link>
+            <router-link 
+                to="/blog" 
+                class="header-nav__link"
+                :class="{ 'active': $route.path === '/blog' }"
+            >
+                Blog
+            </router-link>
         </li>
     </ul>
 </template>
@@ -50,6 +61,7 @@ export default class HeaderNav extends Vue {
 
         list-style-type: none;
         cursor: pointer;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     }
 
     &__link {
@@ -59,6 +71,10 @@ export default class HeaderNav extends Vue {
     }
 
     &__link:hover {
+        color: $theme-color;
+    }
+
+    &__link.active {
         color: $theme-color;
     }
 }

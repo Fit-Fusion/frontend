@@ -1,21 +1,23 @@
 <template>
-    <a href="" class="header-logo">
+    <router-link 
+        to="/"
+        class="logo"
+    >
         <img 
             src="assets/icons/main-logo.png" 
-            class="header-logo__icon" 
+            class="logo__icon" 
             alt="logo"
         />
-
-        <span class="header-logo__title">FitFusion</span>
-    </a>
+        <span class="logo__title">FitFusion</span>
+    </router-link>  
 </template>
 
 <script lang="ts">
 import { Vue, Component} from 'vue-property-decorator';
 
 @Component
-export default class HeaderLogo extends Vue {
-    public name = 'HeaderLogo';   
+export default class Logo extends Vue {
+    public name = 'Logo';   
 
 }
 </script>
@@ -23,7 +25,7 @@ export default class HeaderLogo extends Vue {
 <style lang="scss" scoped>
 @import '../scss/styles';
 
-.header-logo {
+.logo {
     @include flex($direction: row, $align-items: center);
 
     color: $white;
@@ -34,6 +36,10 @@ export default class HeaderLogo extends Vue {
         width: 3rem;
         height: 3rem;
         border-radius: 50%;
+    }
+
+    &__title {
+        text-decoration: none;
     }
 }
 </style>
