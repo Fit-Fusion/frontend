@@ -1,21 +1,21 @@
 <template>
-    <div class="client-login">
-        <h1 class="client-login__title">Client Login</h1>
+    <div class="login">
+        <h1 class="login__title">Login Page</h1>
         
         <form 
             @submit.prevent="login"
-            class="client-login__form"
+            class="login__form"
         >
-            <h4 class="client-login__form-title">Enter your Email and Password to login</h4>
+            <h4 class="login__form-title">Enter your Email and Password to login</h4>
             <input 
-                class="client-login__form-input"
+                class="login__form-input"
                 type="email" 
                 v-model="email" 
                 placeholder="Email" 
                 required
             />
             <input 
-                class="client-login__form-input"
+                class="login__form-input"
                 type="password" 
                 v-model="password" 
                 placeholder="Password" 
@@ -23,7 +23,7 @@
             />
             <button 
                 type="submit" 
-                class="client-login__form-button"
+                class="login__form-button"
             >
                 Login
             </button>
@@ -39,6 +39,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import VueRouter  from 'vue-router';
 import Alert from '../components/Alert.vue';
 
 @Component({
@@ -46,8 +47,9 @@ import Alert from '../components/Alert.vue';
         Alert
     }
 })
-export default class ClientLogin extends Vue {
-    public name = 'ClientLogin';
+export default class Login extends Vue {
+    $router!: VueRouter;
+    public name = 'Login';
     public email = '';
     public password = '';
     public errorMessage = '';
@@ -58,8 +60,11 @@ export default class ClientLogin extends Vue {
             if (userExists) {
                 const validPassword = await this.checkPassword();
                 
-                if (validPassword) {
-                    this.$router.push('/client-dashboard');
+                if (validPassword) {                     
+                    this.$router.push('/client-profile');
+                    /* or
+                    this.$router.push('/trainer-profile');
+                    */
                 } else {
                     this.errorMessage = 'Incorrect password';
                 }
@@ -92,13 +97,13 @@ export default class ClientLogin extends Vue {
 <style lang="scss" scoped>
 @import '../scss/styles';
 
-.client-login {
+.login {
     background: linear-gradient(
       90deg,
       rgba(108, 210, 74, 0.9),
       rgba(0, 0, 0, 0.9)
     ),
-    url("/assets/images/client-login-bg.webp")
+    url("/assets/images/login-bg.webp")
       center fixed no-repeat;
     background-size: cover;
     color: white;

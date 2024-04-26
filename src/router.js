@@ -4,8 +4,10 @@ import About from './pages/About.vue';
 import Home from './pages/Home.vue';
 import Classes from './pages/Classes.vue';
 import Store from './pages/Store.vue';
-import ClientLogin from './pages/ClientLogin.vue';
-import TrainerLogin from './pages/TrainerLogin.vue';
+import Login from './pages/Login.vue';
+import ClientProfile from './pages/ClientProfile.vue';
+import TrainerProfile from './pages/TrainerProfile.vue';
+
 
 Vue.use(VueRouter);
 
@@ -31,14 +33,19 @@ const routes = [
         component: Store
     },
     {
-        path: '/client-login',
-        name: 'ClientLogin',
-        component: ClientLogin
+        path: '/login',
+        name: 'Login',
+        component: Login
     },
     {
-        path: '/trainer-login',
-        name: 'TrainerLogin',
-        component: TrainerLogin
+        path: '/client-profile',
+        name: 'ClientProfile',
+        component: ClientProfile
+    },
+    {
+        path: '/trainer-profile',
+        name: 'TrainerProfile',
+        component: TrainerProfile
     }
 ];
 
