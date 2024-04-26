@@ -21,7 +21,7 @@
         </p>
         <div class="main-section__buttons">
             <button class="main-section__button">
-                Get Started
+                Sign Up
             </button>
             <button class="main-section__button main-section__button_transparent">
                 Learn More
