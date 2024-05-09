@@ -1,12 +1,14 @@
 <template>
-    <section class="review-section section">
+    <section class="review-section">
         <h3 class="review-section__header">What our customers think of us</h3>
         <ul class="reviews">
-            <li class="review">
+            <li 
+                v-for="review in reviews" 
+                :key="review.id" 
+                class="review"
+            >
                 <p class="review__description">
-                   Lorem ipsum dolor sit amet consectetur
-                   adipisicing elit. Aliquid esse qui deleniti
-                   est animi atque ipsa, quaerat veniam possimus
+                   {{ review.description}}
                 </p>
                 
                 <div class="reviewer">
@@ -16,54 +18,7 @@
                         alt="reviewer image"
                     />
                     <p class="reviewer__name">
-                        Robert De Niro <br />
-                        <span class="rating">
-                            <img 
-                                src="assets/icons/star.svg" 
-                                class="rating__star" 
-                                alt="star"
-                            />
-                            <img 
-                                src="assets/icons/star.svg" 
-                                class="rating__star" 
-                                alt="star"
-                            />
-                            <img 
-                                src="assets/icons/star.svg" 
-                                class="rating__star" 
-                                alt="star"
-                            />
-                            <img 
-                                src="assets/icons/star.svg" 
-                                class="rating__star" 
-                                alt="star"
-                            />
-                            <img 
-                                src="assets/icons/star.svg" 
-                                class="rating__star" 
-                                alt="star"
-                            />
-                        </span>
-                    </p>
-                    
-                </div>
-            </li>
-            <li class="review">
-                <p class="review__description">
-                   Lorem ipsum dolor sit amet consectetur
-                   adipisicing elit. Aliquid esse qui deleniti
-                   est animi atque ipsa, quaerat veniam possimus
-                </p>
-                
-                <div class="reviewer">
-                    <img
-                        src="assets/images/kristina.webp"
-                        class="reviewer__img"
-                        alt="reviewer image"
-                    />
-                    <p class="reviewer__name">
-                        Kristina Ricchi <br />
-                        
+                       {{ reviewerName(review.reviewer_id) }} ({{ review.reviewer_type}}) <br />
                         <span class="rating">
                             <img 
                                 src="assets/icons/star.svg" 
@@ -95,111 +50,54 @@
                     
                 </div>
             </li>   
-
-            <li class="review">
-                <p class="review__description">
-                   Lorem ipsum dolor sit amet consectetur
-                   adipisicing elit. Aliquid esse qui deleniti
-                   est animi atque ipsa, quaerat veniam possimus
-                </p>
-                
-                <div class="reviewer">
-                    <img
-                        src="assets/images/kristina.webp"
-                        class="reviewer__img"
-                        alt="reviewer image"
-                    />
-                    <p class="reviewer__name">
-                        Kristina Ricchi <br />
-                        
-                        <span class="rating">
-                            <img 
-                                src="assets/icons/star.svg" 
-                                class="rating__star" 
-                                alt="star"
-                            />
-                            <img 
-                                src="assets/icons/star.svg" 
-                                class="rating__star" 
-                                alt="star"
-                            />
-                            <img 
-                                src="assets/icons/star.svg" 
-                                class="rating__star" 
-                                alt="star"
-                            />
-                            <img 
-                                src="assets/icons/star.svg" 
-                                class="rating__star" 
-                                alt="star"
-                            />
-                            <img 
-                                src="assets/icons/star.svg" 
-                                class="rating__star" 
-                                alt="star"
-                            />
-                        </span>
-                    </p>
-                    
-                </div>
-            </li>
-            <li class="review">
-                <p class="review__description">
-                   Lorem ipsum dolor sit amet consectetur
-                   adipisicing elit. Aliquid esse qui deleniti
-                   est animi atque ipsa, quaerat veniam possimus
-                </p>
-                
-                <div class="reviewer">
-                    <img
-                        src="assets/images/roberto.webp"
-                        class="reviewer__img"
-                        alt="reviewer image"
-                    />
-                    <p class="reviewer__name">
-                        Robert De Niro <br />
-                        <span class="rating">
-                            <img 
-                                src="assets/icons/star.svg" 
-                                class="rating__star" 
-                                alt="star"
-                            />
-                            <img 
-                                src="assets/icons/star.svg" 
-                                class="rating__star" 
-                                alt="star"
-                            />
-                            <img 
-                                src="assets/icons/star.svg" 
-                                class="rating__star" 
-                                alt="star"
-                            />
-                            <img 
-                                src="assets/icons/star.svg" 
-                                class="rating__star" 
-                                alt="star"
-                            />
-                            <img 
-                                src="assets/icons/star.svg" 
-                                class="rating__star" 
-                                alt="star"
-                            />
-                        </span>
-                    </p>
-                    
-                </div>
-            </li>
         </ul>
     </section>
 </template>
 
 <script lang="ts">
-import { Vue, Component} from 'vue-property-decorator';
+import axios from 'axios';
+import { Vue, Component, Prop} from 'vue-property-decorator';
+import { DbUser, Review } from '../../abstracts/Interfaces.js';
 
 @Component
 export default class ReviewSection extends Vue {
     public name = 'ReviewSection';   
 
+    @Prop() public reviews!: Review[];
+
+    async fetchUserData(reviewerId: number) {
+        try {
+            const response = await axios.get(`http://localhost:5555/users/${reviewerId}`);
+
+            return response.data.user[0]; 
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+            return {};
+        }
+    }
+
+    async getReviewerName(reviewerId: number): Promise<string> {
+        try {
+            const user: DbUser = await this.fetchUserData(reviewerId);
+
+            if (user) {
+                return user.firstname + ' ' + user.lastname;
+            }
+
+            return 'Anonymous';
+        } catch (error) {
+            console.error('Error fetching reviewer name:', error);
+            return 'Anonymous';
+        }
+    }
+
+    get reviewerName() {
+        return this.getReviewerName;
+    }
+
+    getUserImageUrl(reviewerId: number) {
+        // :src="getUserImageUrl(review.reviewer_id)"
+    }
 }
 </script>
 
@@ -210,6 +108,8 @@ export default class ReviewSection extends Vue {
     background-size: cover;
     padding-bottom: 1rem;
     margin-bottom: 3.5rem;
+    height: auto;
+    margin-top: 4rem;
 
     &__header {
         text-align: center;

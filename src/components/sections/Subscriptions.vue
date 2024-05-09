@@ -1,54 +1,18 @@
 <template>
-    <section class="subscriptions-section section">
+    <section class="subscriptions-section">
         <h1 class="subscriptions-section__title"> Subscriptions </h1>
 
         <ul class="subscriptions">
-            <li class="subscription">
-                <h4 class="subscription__title">1 Month</h4>
-                <p class="subscription__price">$5.99</p>
+            <li 
+                v-for="subscription in subscriptions"
+                class="subscription"
+                :key="subscription.id"
+            >
+                <h4 class="subscription__title">{{ subscription.duration_months }} monnths Plan</h4>
+                <p class="subscription__price">${{ subscription.price }}</p>
                 <p class="subscription__description">
-                    <i>For one month:</i>
-                    <br />Get access to all the content and updates, plus early bird discounts on new releases
-                </p>
-                <button class="subscription__button">Get Now</button>
-            </li>
-
-            <li class="subscription">
-                <h4 class="subscription__title">2 Months</h4>
-                <p class="subscription__price">$9.99</p>
-                <p class="subscription__description">
-                    <i>For two months:</i>
-                    <br />Get access to all the content and updates, plus early bird discounts on new releases
-                </p>
-                <button class="subscription__button">Get Now</button>
-            </li>
-
-            <li class="subscription">
-                <h4 class="subscription__title"> 3 Months</h4>
-                <p class="subscription__price">$14.99</p>
-                <p class="subscription__description">
-                    <i>For three months:</i>
-                    <br />Get access to all the content and updates, plus early bird discounts on new releases
-                </p>
-                <button class="subscription__button">Get Now</button>
-            </li>
-
-            <li class="subscription">
-                <h4 class="subscription__title">6 Months</h4> 
-                <p class="subscription__price">$24.99</p>
-                <p class="subscription__description">
-                    <i>For six month:</i>
-                    <br />Get access to all the content and updates, plus early bird discounts on new releases
-                </p>
-                <button class="subscription__button">Get Now</button>
-            </li>
-
-            <li class="subscription">
-                <h4 class="subscription__title">12 Months</h4> 
-                <p class="subscription__price">$39.99</p>
-                <p class="subscription__description">
-                    <i>For twelve months:</i>
-                    <br />Get access to all the content and updates, plus early bird discounts on new releases
+                    <i>For {{ subscription.duration_months}} months:</i>
+                    <br /> {{ subscription.description }}
                 </p>
                 <button class="subscription__button">Get Now</button>
             </li>
@@ -57,12 +21,14 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component} from 'vue-property-decorator';
+import { Subscription } from 'abstracts/Interfaces';
+import { Vue, Component, Prop} from 'vue-property-decorator';
 
 @Component
 export default class SubscriptionSection extends Vue {
     public name = 'SubscriptionSection';   
 
+    @Prop() subscriptions: Subscription[];
 }
 </script>
 
@@ -73,6 +39,7 @@ export default class SubscriptionSection extends Vue {
     background: url('/assets/images/subscription-bg.webp');
     background-size: cover;
     padding-top: 1.5rem;
+    margin-top: 4rem;
 
     &__title {
         text-align: center;

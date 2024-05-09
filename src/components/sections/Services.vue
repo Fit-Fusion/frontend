@@ -1,34 +1,43 @@
 <template>
-    <section class="services section">
-        <div class="service service__weight">
-            <h3 class="service__title">Weight Lifting</h3>
-            <p class="service__description">Train like an athlete with our challenging and effective crossfit program.</p>
-        </div>
-        <div class="service service__strength-training">
-            <h3 class="service__title">Strength Training</h3>
-            <p class="service__description">Train like an athlete with our challenging and effective crossfit program.</p>
-        </div>
-        <div class="service service__boxing">
-            <h3 class="service__title">Boxing</h3>
-            <p class="service__description">Learn self-defense and improve your fitness with our martial arts programs.</p>
-        </div>
-        <div class="service service__cardio">
-            <h3 class="service__title">Cardio</h3>
-            <p class="service__description">Join our cardio group classes or train on your own with our equipment.</p>
-        </div>
-        <div class="service service__spa">
-            <h3 class="service__title">Aqua & Spa</h3>
-            <p class="service__description">Improve your flexibility with aqua fitness. Relax and rejuvenate with our post-workout spa treatments</p>
+    <section class="services">
+        <div 
+            v-for="(service, index) in areasOfConcentration"
+            class="service"
+            :key="service.id"
+            :style="{ 
+                'background': `
+                    linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                    url(${getImageUrl(index)})`,
+                'background-size': 'cover'
+            }"
+        >
+            <h3 class="service__title">{{ service.title }} </h3>
+            <p class="service__description"> {{ service.description }}</p>
         </div>
   </section>
 </template>
 
 <script lang="ts">
-import { Vue, Component} from 'vue-property-decorator';
+import { AreaOfConcentration } from '../../abstracts/Interfaces';
+import { Vue, Component, Prop} from 'vue-property-decorator';
 
 @Component
 export default class ServicesSection extends Vue {
     public name = 'ServicesSection';  
+
+    private servicesImageUrl = [
+        'assets/images/deadlift.webp',
+        'assets/images/boxing.webp',
+        'assets/images/cardio.webp',
+        'assets/images/spa.webp',
+        'assets/images/strength-training.webp'
+    ]
+
+    @Prop() public areasOfConcentration!: AreaOfConcentration[];
+
+    getImageUrl(index: number) {
+        return this.servicesImageUrl[index % this.servicesImageUrl.length];
+    }
     
 }
 </script>
@@ -36,61 +45,15 @@ export default class ServicesSection extends Vue {
 <style lang="scss" scoped>
 @import '../../scss/styles';
 
-
 .service {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 70%;
     margin: 1.5rem auto;
     background-size: cover;
-
-    &__weight {
-        background: 
-        linear-gradient(
-            rgba(0, 0, 0, 0.6),
-            rgba(0, 0, 0, 0.6)
-        ),url("/assets/images/deadlift.webp");
-        background-size: cover;
-    }
-
-    &__strength-training {
-        background: linear-gradient(
-            rgba(0, 0, 0, 0.6),
-            rgba(0, 0, 0, 0.6)
-        ),
-        url("/assets/images/strength-training.webp");
-        background-size: cover; 
-    }
-
-    &__boxing {
-        background: 
-        linear-gradient(
-            rgba(0, 0, 0, 0.6),
-            rgba(0, 0, 0, 0.6)
-        ),url("/assets/images/boxing.webp");
-        background-size: cover;
-    }
-
-    &__cardio {
-        background: 
-            linear-gradient(
-            rgba(0, 0, 0, 0.6),
-            rgba(0, 0, 0, 0.6)
-        ), url("/assets/images/cardio.webp");
-        background-size: cover; 
-    }
-
-    &__spa {
-        background: 
-        linear-gradient(
-            rgba(0, 0, 0, 0.6),
-            rgba(0, 0, 0, 0.6)
-        ), url("/assets/images/spa.webp");
-        background-size: cover; 
-    }
+    height: 65vh;
 
     &__image {
         position: absolute;

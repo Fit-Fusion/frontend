@@ -1,5 +1,5 @@
 <template>
-    <section class="main-section section">
+    <section class="main-section">
         <p class="main-section__motivation">
             Sweat Today, Shine Tomorrow
         </p>
@@ -16,12 +16,17 @@
             FOREVER
         </h1>
         <p class="main-section__description">
-            Embark on a transformative fitness journey at FitFusion where every workout is a step towardsa healthier, stronger you.<br />
+            Embark on a transformative fitness journey at FitFusion where every workout is a step towards a healthier, stronger you.<br />
             Our expert trainers and cutting-edge equipment create an atmosphere where failure is impossible.
         </p>
         <div class="main-section__buttons">
             <button class="main-section__button">
-                Sign Up
+                <router-link 
+                    to="/sign-up" 
+                    class="main-section__link"
+                >
+                    Sign Up
+                </router-link>
             </button>
             <button class="main-section__button main-section__button_transparent">
                 Learn More
@@ -29,15 +34,15 @@
         </div>
         <div class="main-section__stats">
             <div class="main-section__stat">
-                <span class="main-section__stat-number hollow">1200+</span>
+                <span class="main-section__stat-number hollow"> {{ totalUsers }}+</span>
                 <span class="main-section__stat-text">Members</span>
             </div>
             <div class="main-section__stat">
                 <span class="main-section__stat-number hollow">30+</span>
-                <span class="main-section__stat-text">Clients</span>
+                <span class="main-section__stat-text">Trainers</span>
             </div>
             <div class="main-section__stat">
-                <span class="main-section__stat-number hollow">10+</span>
+                <span class="main-section__stat-number hollow">{{ totalNumberOfYears }}+</span>
                 <span class="main-section__stat-text">Years</span>
             </div>
         </div>
@@ -45,11 +50,14 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component} from 'vue-property-decorator';
+import { Vue, Component, Prop} from 'vue-property-decorator';
 
 @Component
 export default class MainSection extends Vue {
-    public name = 'MainSection';   
+    public name = 'MainSection';
+    
+    @Prop() public totalNumberOfYears: number;
+    @Prop() public totalUsers: number;
 
 }
 </script>
@@ -60,8 +68,18 @@ export default class MainSection extends Vue {
 .main-section {
     background: url("/assets/images/bodybuilder-faded.png") center no-repeat;
     background-size: cover;
-    padding-top: 2rem;
+    padding-top: 1rem;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 100%;
+    height: auto;
+    
+    @include screen-for($mobile) {
+
+    }
+
+    @include screen-including($mobile, $tablet) {
+        
+    }
 
     &__motivation {
         color: $theme-color;
@@ -112,6 +130,11 @@ export default class MainSection extends Vue {
     &__stat-number {
         font-size: 2rem;
         font-weight: 900;
+    }
+
+    &__link {
+        color: $black;
+        text-decoration: none;
     }
 }
 
