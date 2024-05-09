@@ -5,9 +5,9 @@ import Home from './pages/Home.vue';
 import Classes from './pages/Classes.vue';
 import Store from './pages/Store.vue';
 import Login from './pages/Login.vue';
+import SignUp from './pages/SignUp.vue';
 import ClientProfile from './pages/ClientProfile.vue';
 import TrainerProfile from './pages/TrainerProfile.vue';
-
 
 Vue.use(VueRouter);
 
@@ -38,9 +38,15 @@ const routes = [
         component: Login
     },
     {
-        path: '/client-profile',
+        path: '/sign-up',
+        name: 'SignUp',
+        component: SignUp
+    },
+    {
+        path: '/client-profile/:userId',
         name: 'ClientProfile',
-        component: ClientProfile
+        component: ClientProfile,
+        props: true
     },
     {
         path: '/trainer-profile',
@@ -51,6 +57,7 @@ const routes = [
 
 const router = new VueRouter({
     mode: 'history',
+    base: process.env.BASE_URL,
     routes
 });
 

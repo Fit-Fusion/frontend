@@ -63,7 +63,7 @@
                     <router-link to="/store" class="footer__nav-link">Store</router-link>
                 </li>
                 <li class="footer__nav-item">
-                    <router-link to="/blog" class="footer__nav-link">Blog</router-link>
+                    <router-link to="/calorie-calculator" class="footer__nav-link">Calorie Calculator</router-link>
                 </li>
             </ul>
 
@@ -75,10 +75,19 @@
             </p>
         </div>
         <div class="footer-right">
-            <p class="footer__call-to-action">Subscribe to News</p>
+            <div>
+                <p class="footer__call-to-action">Subscribe to News</p>
 
-            <input key="email" type="email" class="footer__input" placeholder="Your email" />
-            <button class="footer__button">Subscribe</button> 
+                <input key="email" type="email" class="footer__input" placeholder="Your email" />
+                <button class="footer__button">Subscribe</button> 
+            </div>
+            <textarea 
+                class="footer__textarea" 
+                name="message" 
+                rows="4" 
+                cols="25"
+                placeholder="Send us a message..."
+            />    
         </div>
     </footer>
 </template>
@@ -105,8 +114,9 @@ export default class Footer extends Vue {
     display: flex;
     justify-content: space-between;
     padding: 2rem;
+    height: 25vh;
     background: rgb(60, 65, 66);
-    
+   
 
     &__icons {
         display: flex;
@@ -153,8 +163,8 @@ export default class Footer extends Vue {
 
     &__call-to-action {
         color: white;
-        font-size: .8rem;
-        padding-bottom: .6rem;
+        font-size: .9rem;
+        padding-bottom: .3rem;
     }
 
     &__button {
@@ -169,6 +179,16 @@ export default class Footer extends Vue {
         background-color: $theme-color-hover;
         transition: all .2s ease-in
     }
+
+    &__textarea {
+        margin-top: .7rem;
+        padding: .2rem;
+    }
+}
+
+.footer-right {
+    display: flex;
+    flex-direction: column;
 }
 
 </style>

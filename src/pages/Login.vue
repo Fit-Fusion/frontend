@@ -38,8 +38,11 @@
 </template>
 
 <script lang="ts">
+import axios from 'axios';
 import { Component, Vue } from 'vue-property-decorator';
 import VueRouter  from 'vue-router';
+import { DbUser } from '../abstracts/Interfaces';
+import { Role } from '../abstracts/Enum';
 import Alert from '../components/Alert.vue';
 
 @Component({
@@ -48,43 +51,67 @@ import Alert from '../components/Alert.vue';
     }
 })
 export default class Login extends Vue {
-    $router!: VueRouter;
+    $router: VueRouter;
     public name = 'Login';
+
     public email = '';
     public password = '';
     public errorMessage = '';
 
     async login() {
         try {
-            const userExists = await this.checkUserExists();
-            if (userExists) {
-                const validPassword = await this.checkPassword();
-                
-                if (validPassword) {                     
-                    this.$router.push('/client-profile');
-                    /* or
-                    this.$router.push('/trainer-profile');
-                    */
-                } else {
-                    this.errorMessage = 'Incorrect password';
-                }
-            } else {
-                this.$router.push('/client-signup');
+            const user = await this.getUser();
+
+            if (!user || !this.checkUserEmail(user)) {
+                this.$router.push('/sign-up');
+                return;
             }
+
+            const validPassword = this.checkUserPassword(user);
+              
+            if (!validPassword) {
+                this.errorMessage = 'Incorrect Login password';
+                this.$router.push('/login');
+                
+            } 
+            
+            if(user.role == Role.client) {
+                this.$router.push({ 
+                    name: 'ClientProfile',
+                    params: { 
+                        userId: user.id.toString()
+                    }
+                });
+            }
+
+            if(user.role == Role.trainer) {
+                this.$router.push({ 
+                    name: 'TrainerProfile',
+                    params: { 
+                        userId: user.id.toString()
+                    }
+                });
+            }
+
         } catch (error) {
             console.error('Error occurred:', error);
             this.errorMessage = 'An error occurred. Please try again.';
         }
     }
 
-    async checkUserExists() {
-        // Replace this with your actual logic to check if the user exists in the database
-        return (this.email == 'test@fusion.ru')
+    async getUser(): Promise<DbUser> {
+        // improve
+        const response = await axios.get(`http://localhost:5555/users/email/${this.email}`);      
+        
+        return response.data.user;
     }
 
-    async checkPassword() {
-        // Replace this with your actual logic to check the password
-        return (this.password == 'password')
+    checkUserPassword(user: DbUser) {
+        return (user.password == this.password)
+    }
+
+    checkUserEmail(user: DbUser) {
+        return (user.email == this.email)
     }
 
     clearError() {
@@ -108,7 +135,7 @@ export default class Login extends Vue {
     background-size: cover;
     color: white;
     width: 100%;
-    height: 30rem;
+    height: 60vh;
     text-align: center;
 
     &__title {
