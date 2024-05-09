@@ -1,15 +1,7 @@
 <template>
     <header class="header">
         <Logo /> 
-        <HeaderNav />
-        <button class="header__btn">
-            <router-link 
-                to="/login" 
-                class="header__link"
-            >
-                Login
-            </router-link>
-        </button>
+        <HeaderNav v-if="showNav"/>
     </header>
 </template>
 
@@ -25,7 +17,12 @@ import HeaderNav from './HeaderNav.vue';
     }
 })
 export default class Header extends Vue {
-    public name = 'Header'; 
+    public name = 'Header';
+    public showNav = true;
+    
+    public toggleNav() {
+        this.showNav = !this.showNav;
+    }
 }
 </script>
 
@@ -37,22 +34,7 @@ export default class Header extends Vue {
     @include size($width: 100%, $height: 6rem);
     background-color: $theme-background;
     padding: 0 1rem 0 1rem;
-
+    height: 15vh;
     box-sizing: border-box;
-
-    &__btn {
-        background-color: $theme-color;
-        font-weight: 600;
-        font-family:'Courier New', Courier, monospace;
-        padding: 0.5rem 1rem;
-        border: none;
-        cursor: pointer;
-        border-radius: 0.3rem; 
-    }
-
-    &__link {
-        color: $black;
-        text-decoration: none;
-    }
 }
 </style>
