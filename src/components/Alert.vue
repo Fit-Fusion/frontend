@@ -3,7 +3,7 @@
         <div class="alert-message">
             {{ message }}
         </div>
-        <button class="close-button">×</button>
+        <button class="close-button">X</button>
     </div>
 </template>
 

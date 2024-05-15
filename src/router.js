@@ -43,15 +43,16 @@ const routes = [
         component: SignUp
     },
     {
-        path: '/client-profile/:userId',
+        path: '/profile/client/:clientId',
         name: 'ClientProfile',
         component: ClientProfile,
         props: true
     },
     {
-        path: '/trainer-profile',
+        path: '/profile/trainer/:trainerId',
         name: 'TrainerProfile',
-        component: TrainerProfile
+        component: TrainerProfile,
+        props: true
     }
 ];
 

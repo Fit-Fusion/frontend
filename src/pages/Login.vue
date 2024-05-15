@@ -79,7 +79,7 @@ export default class Login extends Vue {
                 this.$router.push({ 
                     name: 'ClientProfile',
                     params: { 
-                        userId: user.id.toString()
+                        clientId: user.id.toString()
                     }
                 });
             }
@@ -88,7 +88,7 @@ export default class Login extends Vue {
                 this.$router.push({ 
                     name: 'TrainerProfile',
                     params: { 
-                        userId: user.id.toString()
+                        trainerId: user.id.toString()
                     }
                 });
             }

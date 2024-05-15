@@ -66,15 +66,15 @@
 
             <!-- <p class="client__attendance"> Attendance: 65% </p> -->
 
-            <UserClasses :userClasses="userClasses" />
+            <UserClasses 
+                :userClasses="userClasses"
+                role="client"
+            />
 
             <h3 class="client__actions-title">Actions:</h3>
 
             <div class="actions">
-                <button class="actions__button">Reset Email</button>
-                <button class="actions__button">Reset Password</button>
-                <button class="actions__button">Reset Name</button>
-                <button class="actions__button">Change plan</button>
+                <button class="actions__button">Edit Profile</button>
                 <button class="actions__button">Rate Trainer</button>
                 <button class="actions__button">Rate FitFusion</button>
             </div>
@@ -124,6 +124,7 @@ export default class ClientProfile extends Vue {
             this.initiateUser(user);
 
             const classes = await this.getClasses();
+            console.log('Classes:', classes);
             this.initiateClasses(classes);    
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -173,8 +174,9 @@ export default class ClientProfile extends Vue {
 
     async getUser() {
         try {
-            let response = await axios.get(`http://localhost:5555/users/client-profile/${this.clientId}`);
-            return response.data.user[0];
+            let response = await axios.get(`http://localhost:5555/users/profile/client/${this.clientId}`);
+            
+            return response.data.client[0];
         } catch (error) {
             console.error('Error fetching user data:', error);
             return null;
@@ -183,8 +185,8 @@ export default class ClientProfile extends Vue {
 
     async getClasses() {
         try {
-            let response = await axios.get(`http://localhost:5555/classes/client-profile/${this.clientId}`);
-            return response.data.classes;
+            let response = await axios.get(`http://localhost:5555/classes/profile/client/${this.clientId}`);
+            return response.data.clientClasses;
         } catch (error) {
             console.error('Error fetching class data:', error);
             return null;
