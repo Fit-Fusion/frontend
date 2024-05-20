@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import About from './pages/About.vue';
+import AboutUs from './pages/AboutUs.vue';
 import Home from './pages/Home.vue';
 import Classes from './pages/Classes.vue';
 import Store from './pages/Store.vue';
@@ -18,9 +18,9 @@ const routes = [
         component: Home
     },
     {
-        path: '/about',
-        name: 'about',
-        component: About
+        path: '/about-us',
+        name: 'AboutUs',
+        component: AboutUs
     },
     {
         path: '/classes',
