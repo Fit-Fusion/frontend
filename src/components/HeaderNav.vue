@@ -2,11 +2,11 @@
     <ul class="header-nav">
         <li class="header-nav__item">
             <router-link 
-                to="/about" 
+                to="/about-us" 
                 class="header-nav__link"
-                :class="{ 'active': $route.path === '/about' }"
+                :class="{ 'active': $route.path === '/about-us' }"
             >
-                Our Team
+                About Us
             </router-link>
         </li>
         <li class="header-nav__item">

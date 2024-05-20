@@ -2,7 +2,6 @@
     <section class="services">
         <div 
             v-for="(service, index) in areasOfConcentration"
-            class="service"
             :key="service.id"
             :style="{ 
                 'background': `
@@ -10,6 +9,8 @@
                     url(${getImageUrl(index)})`,
                 'background-size': 'cover'
             }"
+            class="service"
+            :ref="el => addToRefs(el, index)"
         >
             <h3 class="service__title">{{ service.title }} </h3>
             <p class="service__description"> {{ service.description }}</p>
@@ -35,8 +36,43 @@ export default class ServicesSection extends Vue {
 
     @Prop() public areasOfConcentration!: AreaOfConcentration[];
 
+    private serviceRefs: (HTMLElement | null)[] = [];
+
     getImageUrl(index: number) {
         return this.servicesImageUrl[index % this.servicesImageUrl.length];
+    }
+
+    addToRefs(el: HTMLElement | null, index: number) {
+        if (el) {
+            this.serviceRefs[index] = el;
+        }
+    }
+    
+    mounted() {
+        setTimeout(() => {
+            const options = {
+                root: null,
+                threshold: 0.1
+            };
+
+            const callback = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            };
+
+            const observer = new IntersectionObserver(callback, options);
+
+            this.$nextTick(() => {
+                this.serviceRefs.forEach(service => {
+                    if (service) {
+                        observer.observe(service);
+                    }
+                });
+            });
+        }, 100);
     }
     
 }
@@ -51,9 +87,15 @@ export default class ServicesSection extends Vue {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 1.5rem auto;
+    margin: 5rem 1rem;
     background-size: cover;
     height: 65vh;
+    opacity: 0.5;
+    transition: opacity 3s, transform 3s;
+
+    &.visible {
+        opacity: 1;
+    }
 
     &__image {
         position: absolute;
@@ -66,31 +108,30 @@ export default class ServicesSection extends Vue {
 
     &__title {
         text-align: center;
-        font-size: 2rem;
+        font-size: 3rem;
         margin-bottom: 5rem;
-        animation: fade-in 1s ease-in-out forwards;
+        opacity: 0;
+        transform: translateY(-10rem); 
+        transition: opacity 4s, transform 4s;
     }
 
     &__description {
         position: absolute;
         width: 50%;
         top: 50%;
-        transform: translateY(-50%);
         text-align: center;
-        transform: translateX(100%); /* Slides description in from right */
-        animation: slide-in-right 4s ease-in-out forwards;
+        font-size: 1.5rem;
+        transform: translateY(-50%) translateX(100%);
+        opacity: 0;
+        transition: opacity 4s, transform 4s;
+    }
+
+    &.visible .service__title,
+    &.visible .service__description {
+        opacity: 1;
+        transform: translateY(0) translateX(0);
     }
     
-}
-
-@keyframes fade-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes slide-in-right {
-    from { transform: translateX(100%); }
-    to { transform: translateX(0); }
 }
 
 </style>

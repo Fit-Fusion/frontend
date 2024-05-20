@@ -29,7 +29,12 @@
                 </router-link>
             </button>
             <button class="main-section__button main-section__button_transparent">
-                Learn More
+                <router-link 
+                    to="/about-us" 
+                    class="main-section__link main-section__link_white"
+                >
+                    Learn More
+                </router-link>
             </button>
         </div>
         <div class="main-section__stats">
@@ -72,6 +77,7 @@ export default class MainSection extends Vue {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     width: 100%;
     height: auto;
+    color: $white;
     
     @include screen-for($mobile) {
 
@@ -83,7 +89,7 @@ export default class MainSection extends Vue {
 
     &__motivation {
         color: $theme-color;
-        padding-bottom: 0.5rem;
+        padding-bottom: .2rem;
     }
 
     &__title {
@@ -109,7 +115,6 @@ export default class MainSection extends Vue {
     }
 
     &__button_transparent {
-        color: $white;
         border: 1px solid $white;
         background-color: transparent;
     }
@@ -119,7 +124,7 @@ export default class MainSection extends Vue {
         flex-direction: row;
         justify-content: space-between;
         width: 22rem;
-        padding: 2rem 0;
+        padding: 1rem 0;
     }
 
     &__stat {
@@ -135,6 +140,10 @@ export default class MainSection extends Vue {
     &__link {
         color: $black;
         text-decoration: none;
+
+        &_white {
+            color: $white;
+        }
     }
 }
 

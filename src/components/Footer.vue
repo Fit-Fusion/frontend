@@ -54,7 +54,7 @@
         <div class="footer-center">
             <ul class="footer__nav">
                 <li class="footer__nav-item">
-                    <router-link to="/about" class="footer__nav-link">Our Team</router-link>
+                    <router-link to="/about-us" class="footer__nav-link">About Us</router-link>
                 </li>
                 <li class="footer__nav-item">
                     <router-link to="/classes" class="footer__nav-link">Classes</router-link>

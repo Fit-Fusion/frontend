@@ -23,7 +23,7 @@ import ServicesSection from '../components/sections/Services.vue';
 import SubscriptionSection from '../components/sections/Subscriptions.vue';
 import ReviewSection from '../components/sections/Review.vue';
 import axios from 'axios';
-import { AreaOfConcentration, Review, Subscription } from 'abstracts/Interfaces';
+import { AreaOfConcentration, Review, Subscription } from '../abstracts/Interfaces';
 
 @Component({
     components: {
