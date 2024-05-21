@@ -10,7 +10,7 @@ export interface User {
     weight: string,
     height: string,
     role: Role.client | Role.trainer,
-    gender: string
+    gender: string,
 }
 
 export interface DbUser {
@@ -21,9 +21,9 @@ export interface DbUser {
     phone_number: string,
     date_of_birth: string,
     areas_of_concentration: string,
-    weight: number,
-    height: number,
-    plan_id: number,
+    weight: string,
+    height: string,
+    plan_id: string,
     role: Role.client | Role.trainer,
     gender: string,
     password: string

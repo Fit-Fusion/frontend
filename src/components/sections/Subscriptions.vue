@@ -8,27 +8,48 @@
                 class="subscription"
                 :key="subscription.id"
             >
-                <h4 class="subscription__title">{{ subscription.duration_months }} monnths Plan</h4>
+                <h4 class="subscription__title">{{ subscription.duration_months }} months Plan</h4>
                 <p class="subscription__price">${{ subscription.price }}</p>
                 <p class="subscription__description">
                     <i>For {{ subscription.duration_months}} months:</i>
                     <br /> {{ subscription.description }}
                 </p>
-                <button class="subscription__button">Get Now</button>
+                <button 
+                    class="subscription__button"
+                    @click="redirectToProfileOrLogin"
+                >
+                    Get Now
+                </button>
             </li>
         </ul>
     </section>
 </template>
 
 <script lang="ts">
-import { Subscription } from 'abstracts/Interfaces';
 import { Vue, Component, Prop} from 'vue-property-decorator';
+import { Getter } from 'vuex-class';
+import { Subscription } from 'abstracts/Interfaces';
 
 @Component
 export default class SubscriptionSection extends Vue {
     public name = 'SubscriptionSection';   
 
     @Prop() subscriptions: Subscription[];
+    @Getter('isLoggedIn') isLoggedIn: boolean;
+    @Getter('loggedInUserId') loggedInUserId: string
+
+    redirectToProfileOrLogin() {
+        if (this.isLoggedIn) {
+            this.$router.push({ 
+                name: 'ClientProfile',
+                params: { 
+                    clientId: this.loggedInUserId.toString()
+                }
+            });
+        } else {
+            this.$router.push('/login');
+        }
+    }
 }
 </script>
 
@@ -97,6 +118,11 @@ export default class SubscriptionSection extends Vue {
         border: none;
         background-color: $theme-color;
         margin-bottom: 1rem;
+    }
+
+    &__link {
+        color: $black;
+        text-decoration: none;
     }
 
 }

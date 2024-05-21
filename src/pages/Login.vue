@@ -40,6 +40,7 @@
 <script lang="ts">
 import axios from 'axios';
 import { Component, Vue } from 'vue-property-decorator';
+import { Action } from 'vuex-class';
 import VueRouter  from 'vue-router';
 import { DbUser } from '../abstracts/Interfaces';
 import { Role } from '../abstracts/Enum';
@@ -58,16 +59,17 @@ export default class Login extends Vue {
     public password = '';
     public errorMessage = '';
 
+    @Action('loginUser') loginUser: Function;
+
     async login() {
         try {
-            const user = await this.getUser();
+            const user: DbUser = await this.getUser();
+            const validPassword = this.checkUserPassword(user);
 
             if (!user || !this.checkUserEmail(user)) {
                 this.$router.push('/sign-up');
                 return;
             }
-
-            const validPassword = this.checkUserPassword(user);
               
             if (!validPassword) {
                 this.errorMessage = 'Incorrect Login password';
@@ -93,6 +95,7 @@ export default class Login extends Vue {
                 });
             }
 
+            this.loginUser(user);
         } catch (error) {
             console.error('Error occurred:', error);
             this.errorMessage = 'An error occurred. Please try again.';

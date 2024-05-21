@@ -75,9 +75,7 @@ export default class AddClass extends Vue {
         const newClass = this.createNewClass();
 
         try{
-            const response = await axios.post(`http://localhost:5555/class`, newClass);
-
-            console.log('Class added successfully:', response.data);
+            await axios.post(`http://localhost:5555/class`, newClass);
         } catch(error) {
             console.error('Error adding class:', error);
         }

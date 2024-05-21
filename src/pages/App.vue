@@ -8,6 +8,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { Action } from 'vuex-class';
 import Header from '../components/Header.vue';
 import Footer from '../components/Footer.vue';
 
@@ -19,6 +20,12 @@ import Footer from '../components/Footer.vue';
 })
 export default class App extends Vue {
     public name = 'App';
+
+    @Action('loadStore') loadStore: Function;
+
+    created() {
+        this.loadStore();
+    }
 }
 
 </script>

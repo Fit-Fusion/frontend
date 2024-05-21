@@ -112,11 +112,10 @@ export default class SignUp extends Vue {
     async registerNewUser() {
         try {
             const newUser = this.createNewUser();
-            const response = await axios.post('http://localhost:5555/user', newUser);
+            await axios.post('http://localhost:5555/user', newUser);
 
             this.clearForm();
             this.$router.push('/login');
-            console.log('User created successfully:', response.data);
         } catch(error) {
             console.error('Error registering new user:', error);
         }

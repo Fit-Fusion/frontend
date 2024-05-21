@@ -2,72 +2,71 @@
     <section class="classes-section">
         <h2 class="classes-section__title">OUR CLASSES</h2>
         <ul class="classes">
-            <li class="class">
-                <button class="class__subscribe-button">Subscribe</button>
+            <li 
+                v-for="(description, className) in classDescriptions"
+                :key="className"
+                class=" class"
+            >
+                <button 
+                    @click="subscribeToClass(className)"
+                    class="class__subscribe-button"
+                >
+                    Subscribe
+                </button>
                 <img 
-                    src="assets/images/deadlift.webp" 
+                    :src="`${getImageUrl(className)}`" 
                     class="class__image" 
                     alt="deadlift"
                 />
-                <h4 class="class__title">FULL BODY BLAST</h4>
-                <p class="class__description">The Full body program bla bfsgrhg thuthjsr sthijmnpthiwiwr oirhwrho tw iwrhowrohojwrh...</p>
+                <h4 class="class__title">{{ className }}</h4>
+                <p class="class__description">{{ description }}</p> 
             </li>
-
-            <li class="class">
-                <button class="class__subscribe-button">Subscribe</button>
-                <img 
-                    src="assets/images/cardio.webp" 
-                    class="class__image" 
-                    alt="cardio"
-                />
-                <h4 class="class__title">CARDIO</h4>
-                <p class="class__description">The cardio program bla bfsgrhg thuthjsr sthijmnpthiwiwr oirhwrho tw iwrhowrohojwrh...</p>
-            </li>
-
-            <li class="class">
-                <button class="class__subscribe-button">Subscribe</button>
-                <img 
-                    src="assets/images/strength-training.webp" 
-                    class="class__image" 
-                    alt="strength-training"
-                />
-                <h4 class="class__title">STRENGTH TRAINING</h4>
-                <p class="class__description">The strength training program bla bfsgrhg thuthjsr sthijmnpthiwiwr oirhwrho tw iwrhowrohojwrh...</p>
-            </li>
-
-            <li class="class">
-                <button class="class__subscribe-button">Subscribe</button>
-                <img 
-                    src="assets/images/boxing.webp" 
-                    class="class__image" 
-                    alt="boxing"
-                />
-                <h4 class="class__title">BOXING</h4>
-                <p class="class__description">The boxing program bla bfsgrhg thuthjsr sthijmnpthiwiwr oirhwrho tw iwrhowrohojwrh...</p>
-            </li>
-
-            <li class="class">
-                <button class="class__subscribe-button">Subscribe</button>
-                <img 
-                    src="assets/images/spa.webp" 
-                    class="class__image" 
-                    alt="spa"
-                />
-                <h4 class="class__title">SPA</h4>
-                <p class="class__description">The spa program bla bfsgrhg thuthjsr sthijmnpthiwiwr oirhwrho tw iwrhowrohojwrh...</p>
-            </li>
-
         </ul>
     </section> 
 </template>
 
 <script lang="ts">
+import axios from 'axios';
 import { Vue, Component} from 'vue-property-decorator';
+import { Getter } from 'vuex-class';
+import CLASS_DESCRIPTION from '../abstracts/ClassDescription';
 
 @Component
 export default class Classes extends Vue {
-    public name = 'Classes';   
+    public name = 'Classes';  
 
+    private classesImageUrl: { [key: string]: string } = {
+        'Boxing': 'assets/images/boxing.webp',
+        'Cardio': 'assets/images/cardio.webp',
+        'Spa': 'assets/images/spa.webp',
+        'Weight lifting': 'assets/images/deadlift.webp',
+        'Strength Training': 'assets/images/strength-training.webp'
+    };
+
+    @Getter('isLoggedIn') isLoggedIn: boolean;
+    @Getter('loggedInUserId') loggedInUserId: string;
+
+    get classDescriptions() {
+        return CLASS_DESCRIPTION;
+    }
+    
+    getImageUrl(className: number) {
+        return this.classesImageUrl[className] || 'assets/images/bodybuilder.webp';
+    }
+
+    // Improve
+    subscribeToClass(className: string) {
+        if (this.isLoggedIn) {
+            this.$router.push({ 
+                name: 'ClientProfile',
+                params: { 
+                    clientId: this.loggedInUserId.toString()
+                }
+            });
+        } else {
+            this.$router.push('/login');
+        }
+    }
 }
 </script>
 
@@ -94,10 +93,12 @@ export default class Classes extends Vue {
 
 .class {
     width: 20rem;
+    height: 20rem;
     margin: 1rem;
 
     &__image {
         width: 100%;
+        height: 75%;
         border: .1rem solid $theme-color;
         border-radius: 1rem;
         margin-bottom: .5rem;

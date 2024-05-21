@@ -124,7 +124,6 @@ export default class ClientProfile extends Vue {
             this.initiateUser(user);
 
             const classes = await this.getClasses();
-            console.log('Classes:', classes);
             this.initiateClasses(classes);    
         } catch (error) {
             console.error('Error fetching data:', error);

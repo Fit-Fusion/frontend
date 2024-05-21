@@ -6,41 +6,46 @@
                 <img 
                     src="assets/images/trainer1.webp" 
                     class="trainer__image" 
-                    alt="Victoria Alexandrovna"
+                    alt="Sarah Connor"
                 />
-                <p class="trainer__name">Victoria Alexandrovna</p>
+                <p class="trainer__name">Sarah Connor</p>
+                <p class="trainer__field">Cardio</p>
             </li>
             <li class="trainer">
                 <img 
                     src="assets/images/trainer2.webp" 
                     class="trainer__image" 
-                    alt="Alexander Alexandrovich"
+                    alt="Micheal Johnson"
                 />
-                <p class="trainer__name">Kirill Avgustinovich</p>
+                <p class="trainer__name">Micheal Johnson</p>
+                <p class="trainer__field">Weight Lifting</p>
             </li>
             <li class="trainer">
                 <img 
                     src="assets/images/trainer3.webp" 
                     class="trainer__image" 
-                    alt="Anna Alexandrovich"
+                    alt="Jessica Miller"
                 />
-                <p class="trainer__name">Anna Maximovich</p>
+                <p class="trainer__name">Jessica Miller</p>
+                <p class="trainer__field">Boxing</p>
             </li>
             <li class="trainer">
                 <img 
                     src="assets/images/trainer4.webp" 
                     class="trainer__image" 
-                    alt="Samuel Igorevich"
+                    alt="David Smith"
                 />
-                <p class="trainer__name">Samuel Igorevich</p>
+                <p class="trainer__name">David Smith</p>
+                <p class="trainer__field">Strength Training</p>
             </li>
             <li class="trainer">
                 <img 
                     src="assets/images/trainer5.webp" 
                     class="trainer__image" 
-                    alt="Valeria Burundi"
+                    alt="Emily Williams"
                 />
-                <p class="trainer__name">Valeria Burundi</p>
+                <p class="trainer__name">Emily Williams</p>
+                <p class="trainer__field">Spa</p>
             </li>
         </ul>
     </section>
@@ -94,8 +99,10 @@ export default class TrainersSection extends Vue {
         font-size: 1.5rem;
     }
 
-    &__title {
+    &__field {
         color: $theme-color;
+        font-style: italic;
+        font-size: 1rem;
     }
 }
 </style>
