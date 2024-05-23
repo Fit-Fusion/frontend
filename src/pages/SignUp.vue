@@ -22,13 +22,15 @@
                 placeholder="Last Name" 
                 required
             />
-            <input 
+            <select 
                 class="sign-up__form-input"
-                type="text"
                 v-model="gender" 
-                placeholder="Gender" 
                 required
-            />
+            >
+                <option value="" disabled>Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
             <input 
                 class="sign-up__form-input"
                 type="email" 
@@ -50,13 +52,18 @@
                 placeholder="Date Of Birth" 
                 required
             />
-            <input 
+            <select 
                 class="sign-up__form-input"
-                type="string"
-                v-model="areasOfConcentration" 
-                placeholder="Area of Concentration" 
+                v-model="areaOfConcentration" 
                 required
-            />
+            >
+                <option value="" disabled>Area Of Concentration</option>
+                <option value="Boxing">Boxing</option>
+                <option value="Cardio">Cardio</option>
+                <option value="Weight Lifting">Weight Lifting</option>
+                <option value="Strength Training">Strength Training</option>
+                <option value="Spa">Spa</option>
+            </select>
             <input 
                 class="sign-up__form-input"
                 type="number"
@@ -103,9 +110,9 @@ export default class SignUp extends Vue {
     private email: string = '';
     private phoneNumber: string = '';
     private dateOfBirth: string = '';
-    private areasOfConcentration: string = '';
-    private weight: string = '';
-    private height: string = '';
+    private areaOfConcentration: string = '';
+    private weight = 0;
+    private height = 0;
     private role: Role.client | Role.trainer = Role.client;
     private gender: string = '';
 
@@ -127,8 +134,8 @@ export default class SignUp extends Vue {
             lastname: this.lastName,
             email: this.email,
             phoneNumber: this.phoneNumber,
-            dateOfBirth: this.dateOfBirth,
-            areasOfConcentration: this.areasOfConcentration,
+            age: this.calculateAge(this.dateOfBirth),
+            areaOfConcentration: this.areaOfConcentration,
             weight: this.weight,
             height: this.height,
             role: this.role,
@@ -142,12 +149,25 @@ export default class SignUp extends Vue {
         this.email = '';
         this.phoneNumber = '';
         this.dateOfBirth = '';
-        this.areasOfConcentration = '';
-        this.weight = '';
-        this.height = '';
+        this.areaOfConcentration = '';
+        this.weight = 0;
+        this.height = 0;
         this.gender = '';
     }
 
+    calculateAge(dateOfBirth: string): number {
+        const dob = new Date(dateOfBirth);
+        const today = new Date();
+    
+        let age = today.getFullYear() - dob.getFullYear();
+        const monthDiff = today.getMonth() - dob.getMonth();
+
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+            age--;
+        }
+
+        return age;
+    }
 }
 
 </script>
