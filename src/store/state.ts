@@ -8,16 +8,17 @@ const state: State = {
         lastname: '',
         email: '',
         phone_number: '',
-        date_of_birth: '',
-        areas_of_concentration: '',
-        weight: '',
-        height: '',
+        age: 0,
+        area_of_concentration: '',
+        weight: 0,
+        height: 0,
         plan_id: '',
         role: Role.client,
         gender: '',
         password: ''
     },
-    isLoggedIn: false
+    isLoggedIn: false,
+    lastUserInteraction: 0
 }
 
 export default state;

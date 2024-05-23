@@ -7,7 +7,6 @@
                     class="trainer__image"
                     alt="trainer"
                 />
-
                 <div class="client__bio">
                     <h3 class="trainer__name">{{ fullname }}</h3>
                     <p class="trainer__email">{{ email }}</p>
@@ -15,53 +14,13 @@
             </div>
 
             <div class="trainer-info">
-                <div class="trainer-info__item">
+                <div class="trainer-info__item" v-for="(info, index) in trainerInfo" :key="index">
                     <!-- improve -->
                     <!-- Get icons for each of these data -->
-                    <i class="trainer-info__icon"><i class="fas fa-map-marker-alt"></i></i>
+                    <i class="trainer-info__icon"><i :class="info.icon"></i></i>
                     <div class="trainer-info__wrapper">
-                        <p class="trainer__basic-info">{{ gender }}</p>
-                        <p class="trainer__basic-info-title">Gender</p>
-                    </div>
-                </div>
-
-                <div class="trainer-info__item">
-                    <i class="trainer-info__icon"><i class="fas fa-map-marker-alt"></i></i>
-                    <div class="trainer-info__wrapper">
-                        <p class="trainer__basic-info">{{ age }}</p>
-                        <p class="trainer__basic-info-title">Age</p>
-                    </div>
-                </div>
-
-                <div class="trainer-info__item">
-                    <i class="trainer-info__icon"><i class="fas fa-map-marker-alt"></i></i>
-                    <div class="trainer-info__wrapper">
-                        <p class="trainer__basic-info">{{ weight }}</p>
-                        <p class="trainer__basic-info-title">Weight</p>
-                    </div>
-                </div>
-
-                <div class="trainer-info__item">
-                    <i class="trainer-info__icon"><i class="fas fa-map-marker-alt"></i></i>
-                    <div class="trainer-info__wrapper">
-                        <p class="trainer__basic-info">{{ height }}</p>
-                        <p class="trainer__basic-info-title">Height</p>
-                    </div>
-                </div>
-
-                <div class="trainer-info__item">
-                    <i class="trainer-info__icon"><i class="fas fa-map-marker-alt"></i></i>
-                    <div class="trainer-info__wrapper">
-                        <p class="trainer__basic-info">{{ phoneNumber }}</p>
-                        <p class="trainer__basic-info-title">Phone</p>
-                    </div>
-                </div>
-
-                <div class="trainer-info__item">
-                    <i class="trainer-info__icon"><i class="fas fa-map-marker-alt"></i></i>
-                    <div class="trainer-info__wrapper">
-                        <p class="trainer__basic-info">{{ areaOfConcentration }}</p>
-                        <p class="trainer__basic-info-title">Field</p>
+                        <p class="trainer__basic-info">{{ info.value }}</p>
+                        <p class="trainer__basic-info-title">{{ info.label }}</p>
                     </div>
                 </div>                
             </div>
@@ -69,13 +28,16 @@
             <UserClasses 
                 :userClasses="userClasses"
                 role="trainer"
-                @showAddClass="showAddClass"
+                @addClass="showAddClass"
+                @editClass="showEditClass"
+                @deleteClass="showDeleteClass"
             />
 
             <h3 class="trainer__actions-title">Actions</h3>
 
             <div class="actions">
-                <button class="actions__button">Edit Profile</button>
+                <button class="actions__button" @click="showEditProfile">Edit Profile</button>
+                <button class="actions__button" @click="showEditTrainerEmailPassword">Reset Email/Password</button>
                 <button class="actions__button">Rate Client</button>
                 <button class="actions__button">Rate FitFusion</button>
             </div>
@@ -86,6 +48,31 @@
             :trainerId="trainerId"
             :className="areaOfConcentration"
             @close="hideAddClass"
+            @refreshClasses="refreshClasses"
+        />
+        <EditClassModal
+            v-if="showEditClassModal"
+            :classData="selectedClass"
+            @close="hideEditClassModal"
+            @refreshClasses="refreshClasses"
+        />
+        <DeleteClassModal
+            v-if="showDeleteClassModal"
+            :classId="selectedClass.id"
+            @close="hideDeleteClassModal"
+            @refreshClasses="refreshClasses"
+        />
+        <EditTrainerModal
+            v-if="showEditProfileModal"
+            :trainerId="trainerId"
+            @close="hideEditProfileModal"
+            @refreshUsers="refreshUsers"
+        />        
+        <ResetTrainerEmailPassword
+            v-if="showEditTrainerEmailPasswordModal"
+            :trainerId="trainerId"
+            @close="hideEditTrainerEmailPasswordModal"
+            @refreshUsers="refreshUsers"
         />
     </div>
 </template>
@@ -95,11 +82,19 @@ import axios from 'axios';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import UserClasses from '../components/UserClasses.vue';
 import AddClass from '../components/AddClass.vue';
+import EditClassModal from '../components/EditClassModal.vue';
+import DeleteClassModal from '../components/DeleteClassModal.vue';
+import EditTrainerModal from '../components/EditTrainerModal.vue';
+import ResetTrainerEmailPassword from '../components/ResetTrainerEmailPassword.vue';
 
 @Component({
     components: {
         UserClasses,
-        AddClass
+        AddClass,
+        EditClassModal,
+        DeleteClassModal,
+        EditTrainerModal,
+        ResetTrainerEmailPassword        
     }
 })
 export default class TrainerProfile extends Vue {
@@ -117,6 +112,12 @@ export default class TrainerProfile extends Vue {
     public userClasses = [];
 
     private showAddClassModal = false;
+    private showEditClassModal = false;
+    private showDeleteClassModal = false;
+    private selectedClass: any = null;
+
+    private showEditProfileModal = false;
+    private showEditTrainerEmailPasswordModal = false;
 
     @Prop({ required: true }) trainerId: string;
 
@@ -140,17 +141,39 @@ export default class TrainerProfile extends Vue {
         this.showAddClassModal = false;
     }
 
+    showEditClass(classData: any) {
+        this.selectedClass = classData;
+        this.showEditClassModal = true;
+    }
+
+    showDeleteClass(classData: any) {
+        this.selectedClass = classData;
+        this.showDeleteClassModal = true;
+    }
+
+    hideEditClassModal() {
+        this.showEditClassModal = false;
+    }
+
+    hideDeleteClassModal() {
+        this.showDeleteClassModal = false;
+    }
+
+    async refreshClasses() {
+        await this.initializeData();
+    }
+
     // improve
     initiateUser(user: any) {
         this.fullname = this.getFullName(user.firstname, user.lastname);
         this.email = user.email;
         this.planStatus = user.subscription_status;
         this.gender = user.gender;
-        this.age = this.calculateAge(user.date_of_birth);
+        this.age = user.age;
         this.weight = user.weight;
         this.height = user.height;
         this.phoneNumber = user.phone_number;
-        this.areaOfConcentration = user.areas_of_concentration;
+        this.areaOfConcentration = user.area_of_concentration;
     }
 
     private getFullName(firstname: string, lastname: string) {
@@ -160,11 +183,13 @@ export default class TrainerProfile extends Vue {
     initiateClasses(classes: any) {
         this.userClasses = classes.map((classe: any) => {
             return {
+                id: classe.id,
                 date: this.formatDate(classe.date),
                 name: classe.name,
                 start: classe.start_time,
                 end:classe.end_time,
                 instructorName: this.fullname,
+                trainerId: this.trainerId
             }
         });
     }
@@ -181,9 +206,26 @@ export default class TrainerProfile extends Vue {
         return `${day}/${month}/${year}`;
     }
 
+    showEditProfile() {
+        this.showEditProfileModal = true; 
+    }
+
+    showEditTrainerEmailPassword() {
+        this.showEditTrainerEmailPasswordModal = true; 
+    }
+
+    hideEditProfileModal() {
+        this.showEditProfileModal = false; 
+    }
+
+    hideEditTrainerEmailPasswordModal() {
+        this.showEditTrainerEmailPasswordModal = false; 
+    }
+
     async getUser() {
         try {
             let response = await axios.get(`http://localhost:5555/users/profile/trainer/${this.trainerId}`);
+            
             return response.data.trainer[0];
         } catch (error) {
             console.error('Error fetching user data:', error);
@@ -194,6 +236,7 @@ export default class TrainerProfile extends Vue {
     async getClasses() {
         try {
             let response = await axios.get(`http://localhost:5555/classes/profile/trainer/${this.trainerId}`);
+
             return response.data.trainerClasses;
         } catch (error) {
             console.error('Error fetching class data:', error);
@@ -201,18 +244,19 @@ export default class TrainerProfile extends Vue {
         }
     }
 
-    calculateAge(dateOfBirth: string): number {
-        const dob = new Date(dateOfBirth);
-        const today = new Date();
-    
-        let age = today.getFullYear() - dob.getFullYear();
-        const monthDiff = today.getMonth() - dob.getMonth();
+    get trainerInfo() {
+        return [
+            { label: 'Gender', value: this.gender, icon: 'fas fa-venus-mars' },
+            { label: 'Age', value: this.age, icon: 'fas fa-calendar' },
+            { label: 'Weight', value: this.weight, icon: 'fas fa-weight' },
+            { label: 'Height', value: this.height, icon: 'fas fa-ruler-vertical' },
+            { label: 'Phone', value: this.phoneNumber, icon: 'fas fa-phone' },
+            { label: 'Field', value: this.areaOfConcentration, icon: 'fas fa-dumbbell' },
+        ];
+    }
 
-        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
-            age--;
-        }
-
-        return age;
+    async refreshUsers() {    
+        this.initializeData();
     }
 
     mounted() {
@@ -228,9 +272,7 @@ export default class TrainerProfile extends Vue {
 .trainer-profile {
     @include size($width: 100%);
     padding: 2rem 4rem;
-    // improve
-    background: linear-gradient(to bottom, #0c2647, #1b3f72, #25608a, #218d9d, #1ec7b0, #20f2c3);
-    // background: linear-gradient(to bottom, rgb(32, 39, 55), rgb(96, 160, 40));
+    background: linear-gradient(to bottom, rgb(32, 39, 55), rgb(21, 138, 151));
 
     color: $white;
 }

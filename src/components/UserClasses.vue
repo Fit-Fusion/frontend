@@ -10,6 +10,8 @@
                 <UserClass 
                     :userClass="userClass"
                     :role="role"
+                    @editClass="handleEditClass"
+                    @deleteClass="handleDeleteClass"
                 />
             </li>
         </ul>
@@ -17,7 +19,7 @@
         <template v-if="role === 'trainer'">
             <button 
                 class="user-classes__button"
-                @click="showAddClass"
+                @click="handleAddClass"
             >
                 Add Class
             </button>
@@ -41,9 +43,16 @@ export default class UserClasses extends Vue {
     @Prop({ required: true }) userClasses: [];
     @Prop({ required: true }) role: string;
 
+    handleEditClass(userClass: any) {
+        this.$emit('editClass', userClass);
+    }
 
-    showAddClass() {
-        this.$emit('showAddClass');
+    handleDeleteClass(userClass: any) {
+        this.$emit('deleteClass', userClass);
+    }
+
+    handleAddClass() {
+        this.$emit('addClass');
     }
 }
 </script>

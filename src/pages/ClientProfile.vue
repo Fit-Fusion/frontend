@@ -74,7 +74,8 @@
             <h3 class="client__actions-title">Actions:</h3>
 
             <div class="actions">
-                <button class="actions__button">Edit Profile</button>
+                <button class="actions__button" @click="showEditProfile">Edit Profile</button>
+                <button class="actions__button" @click="showEditClientEmailPassword">Reset Email/Password</button>
                 <button class="actions__button">Rate Trainer</button>
                 <button class="actions__button">Rate FitFusion</button>
             </div>
@@ -89,6 +90,20 @@
                 </router-link>
             </p>
         </div>
+
+        <EditClientModal
+            v-if="showEditProfileModal"
+            :clientId="clientId"
+            @close="hideEditProfileModal"
+            @refreshUsers="refreshUsers"
+        />
+        
+        <ResetClientEmailPassword
+            v-if="showEditClientEmailPasswordModal"
+            :clientId="clientId"
+            @close="hideEditClientEmailPasswordModal"
+            @refreshUsers="refreshUsers"
+        />
     </div>
 </template>
 
@@ -96,10 +111,14 @@
 import axios from 'axios';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import UserClasses from '../components/UserClasses.vue';
+import EditClientModal from '../components/EditClientModal.vue';
+import ResetClientEmailPassword from '../components/ResetClientEmailPassword.vue';
 
 @Component({
     components: {
-        UserClasses
+        UserClasses,
+        EditClientModal,
+        ResetClientEmailPassword
     }
 })
 export default class ClientProfile extends Vue {
@@ -115,6 +134,9 @@ export default class ClientProfile extends Vue {
     public phoneNumber = '';
     public areaOfConcentration = '';
     public userClasses = [];
+
+    private showEditProfileModal = false;
+    private showEditClientEmailPasswordModal = false;
 
     @Prop({ required: true }) clientId: string;
 
@@ -136,11 +158,11 @@ export default class ClientProfile extends Vue {
         this.email = user.email;
         this.planStatus = user.subscription_status;
         this.gender = user.gender;
-        this.age = this.calculateAge(user.date_of_birth);
+        this.age = user.age;
         this.weight = user.weight;
         this.height = user.height;
         this.phoneNumber = user.phone_number;
-        this.areaOfConcentration = user.areas_of_concentration;
+        this.areaOfConcentration = user.area_of_concentration;
     }
 
     private getFullName(firstname: string, lastname: string) {
@@ -205,6 +227,26 @@ export default class ClientProfile extends Vue {
 
         return age;
     }
+
+    showEditProfile() {
+        this.showEditProfileModal = true; 
+    }
+
+    showEditClientEmailPassword() {
+        this.showEditClientEmailPasswordModal = true; 
+    }
+
+    hideEditProfileModal() {
+        this.showEditProfileModal = false; 
+    }
+
+    hideEditClientEmailPasswordModal() {
+        this.showEditClientEmailPasswordModal = false; 
+    }
+
+    async refreshUsers() {    
+        this.initializeData();
+    }
     
     mounted() {
         this.initializeData();
@@ -219,9 +261,7 @@ export default class ClientProfile extends Vue {
 .client-profile {
     @include size($width: 100%);
     padding: 2rem 4rem;
-    // improve
-    background: linear-gradient(to bottom, #0c2647, #1b3f72, #25608a, #218d9d, #1ec7b0, #20f2c3);
-    // background: linear-gradient(to bottom, rgb(32, 39, 55), rgb(96, 160, 40));
+    background: linear-gradient(to bottom, rgb(32, 39, 55), rgb(21, 138, 151));
 
     color: $white;
 }

@@ -9,8 +9,18 @@
             <span class="user-class__data">Upcoming</span>
         </template>
         <template v-else>
-            <button class="user-class__button user-class__button_edit">Edit</button>
-            <button class="user-class__button user-class__button_delete">Delete</button>
+            <button 
+                class="user-class__button user-class__button_edit"
+                @click="editClass"
+            >
+                Edit
+            </button>
+            <button 
+                class="user-class__button user-class__button_delete"
+                @click="deleteClass"
+            >
+                Delete
+            </button>
         </template>
 
     </div>
@@ -25,6 +35,14 @@ export default class UserClass extends Vue {
 
     @Prop({ required: true}) userClass: any;
     @Prop({required: true}) role: string;
+
+    editClass() {
+        this.$emit('editClass', this.userClass);
+    }
+
+    deleteClass() {
+        this.$emit('deleteClass', this.userClass);
+    }
 }
 </script>
 

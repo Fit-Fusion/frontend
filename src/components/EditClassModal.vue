@@ -1,38 +1,39 @@
 <template>
-    <div class="add-class" @click="close">
+    <div class="edit-class-modal" @click="close">
         <form 
-            class="add-class__form"
-            @submit.prevent="addClass"
+            class="edit-class-modal__form"
+            @submit.prevent="saveEdit"
             @click.stop
         >
-            <h4 class="add-class__form-title">Add Date and time for new class</h4>
-            
-            <label class="add-class__form-label">Name:</label>
+            <h4 class="edit-class-modal__form-title">Update Selected Class</h4>
+
+            <label class="edit-class-modal__form-label">Name:</label>
             <input 
-                class="add-class__form-input add-class__form-input-readonly"
+                class="edit-class-modal__form-input"
                 type="text" 
-                :value="className" 
+                v-model="className" 
                 readonly
             />
-            <label class="add-class__form-label">Date:</label>
+        
+            <label class="edit-class-modal__form-label">Date:</label>
             <input 
-                class="add-class__form-input"
+                class="edit-class-modal__form-input"
                 type="date" 
                 v-model="classDate" 
                 placeholder="Date" 
                 required 
             />
-            <label class="add-class__form-label">Start Time:</label>
+            <label class="edit-class-modal__form-label">Start Time:</label>
             <input 
-                class="add-class__form-input"
+                class="edit-class-modal__form-input"
                 type="time" 
                 v-model="classStartTime" 
                 placeholder="Start Time" 
                 required 
             />
-            <label class="add-class__form-label">End Time:</label>
+            <label class="edit-class-modal__form-label">End Time:</label>
             <input 
-                class="add-class__form-input"
+                class="edit-class-modal__form-input"
                 type="time" 
                 v-model="classEndTime" 
                 placeholder="End Time" 
@@ -40,12 +41,12 @@
             />
             <button 
                 type="submit" 
-                class="add-class__form-button"
+                class="edit-class-modal__form-button"
             >
-                Add Class
+                Save Changes
             </button>
             <button 
-                class="add-class__form-close-button"
+                class="edit-class-modal__form-close-button"
                 @click="close"
             >
                 X
@@ -60,54 +61,69 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import CLASS_DESCRIPTION from '../abstracts/ClassDescription';
 
 @Component
-export default class AddClass extends Vue {
-    public name = 'AddClass';
-    
-    @Prop({ required: true }) trainerId: string;
-    @Prop({ required: true }) className: string;
+export default class EditClassModal extends Vue {
+    @Prop({ required: true }) classData: any;
 
+    public className = '';
     public classDate = '';
     public classStartTime = '';
     public classEndTime = '';
-    public classDescription = '';
 
-    async addClass() {
-        try{
-            const newClass = this.createNewClass();
-            await axios.post(`http://localhost:5555/class`, newClass);
-            
+    async saveEdit() {
+        try {
+            const editedClass = {
+                id: this.classData.id,
+                name: this.className,
+                date: this.classDate,
+                description: this.getClassDescription(),
+                start_time: this.classStartTime,
+                end_time: this.classEndTime,
+                trainer_id: this.classData.trainerId
+            };
+
+            await axios.put(`http://localhost:5555/classes/${editedClass.id}`, editedClass);
             this.$emit('refreshClasses');
         } catch(error) {
-            console.error('Error adding class:', error);
+            console.error('Error Updating class:', error);
         }
 
         this.clearForm();
         this.close();
     }
 
-    clearForm() {
-        this.classDate = '';
-        this.classStartTime = '';
-        this.classEndTime = '';
-        this.classDescription = '';
-    }
-
-    createNewClass() {
-        return {
-            trainer_id: this.trainerId,
-            name: this.className,
-            description: this.getClassDescription(),
-            date: this.classDate,
-            start_time: this.classStartTime,
-            end_time: this.classEndTime
-        }
-    }
-
     getClassDescription() {
         return CLASS_DESCRIPTION[this.className];
     }
+
+    clearForm() {
+        this.className = '';
+        this.classDate = '';
+        this.classStartTime = '';
+        this.classEndTime = '';
+    }
+
     close() {
         this.$emit('close');
+    }
+
+    initializeFormData() {
+        this.className = this.classData.name;
+        this.classDate = this.formatDate(this.classData.date);
+        this.classStartTime = this.classData.start;
+        this.classEndTime = this.classData.end;
+    }
+
+    formatDate(dateString: string): string {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+
+        return `${year}-${month}-${day}`;
+    }
+
+    created() {
+        this.initializeFormData();
     }
 }
 </script>
@@ -115,7 +131,7 @@ export default class AddClass extends Vue {
 <style lang="scss" scoped>
 @import '../scss/styles';
 
-.add-class {
+.edit-class-modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -126,13 +142,13 @@ export default class AddClass extends Vue {
     justify-content: center;
     align-items: center;
     z-index: 10;
-    
+
     &__form {
         position: relative;
         display: flex;
         flex-direction: column;
         background: $black;
-        border-radius: 1rem 0 1rem 0;
+        border-radius: 1rem;
         width: 25rem;
         padding: 2rem;
         margin: 0 auto;
@@ -147,25 +163,6 @@ export default class AddClass extends Vue {
             border-radius: .4rem;
             padding: .4rem;
             outline: none;
-
-            &-readonly {
-                color: $grey;
-            }
-        }
-
-        &-input:focus {
-            border: .2rem solid $theme-color;
-        }
-
-        &-close-button {
-            position: absolute;
-            top: .2rem;
-            right: .2rem;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            font-size: 1.5rem;
-            color: $red;
         }
 
         &-button {
@@ -183,6 +180,17 @@ export default class AddClass extends Vue {
         &-button:hover {
             background-color: $theme-color-hover;
             transition: all .2s ease-in
+        }
+
+        &-close-button {
+            position: absolute;
+            top: .5rem;
+            right: .5rem;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: $red;
         }
     }    
 }

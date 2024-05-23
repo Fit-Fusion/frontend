@@ -80,6 +80,7 @@ export default class TrainersSection extends Vue {
     flex-wrap: wrap;
     justify-content: space-evenly;
     list-style-type: none;
+    padding-bottom: 2rem;
 }
 
 .trainer {
