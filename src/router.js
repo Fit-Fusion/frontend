@@ -8,6 +8,8 @@ import Login from './pages/Login.vue';
 import SignUp from './pages/SignUp.vue';
 import ClientProfile from './pages/ClientProfile.vue';
 import TrainerProfile from './pages/TrainerProfile.vue';
+import CalorieCalculator from './pages/CalorieCalculator.vue';
+import AdminProfile from './pages/AdminProfile.vue';
 
 Vue.use(VueRouter);
 
@@ -52,6 +54,17 @@ const routes = [
         path: '/profile/trainer/:trainerId',
         name: 'TrainerProfile',
         component: TrainerProfile,
+        props: true
+    },
+    {
+        path: '/calorie-calculator',
+        name: 'CalorieCalculator',
+        component: CalorieCalculator
+    },
+    {
+        path: '/profile/admin/:adminId',
+        name: 'AdminProfile',
+        component: AdminProfile,
         props: true
     }
 ];
