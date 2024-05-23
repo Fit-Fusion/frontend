@@ -64,42 +64,70 @@ export default class Login extends Vue {
     async login() {
         try {
             const user: DbUser = await this.getUser();
-            const validPassword = this.checkUserPassword(user);
-
-            if (!user || !this.checkUserEmail(user)) {
-                this.$router.push('/sign-up');
+            if (!user) {
+                this.errorMessage = 'User Not Found';
                 return;
             }
               
+            const validPassword = this.checkUserPassword(user);
             if (!validPassword) {
                 this.errorMessage = 'Incorrect Login password';
-                this.$router.push('/login');
-                
-            } 
+                return
+            }
             
-            if(user.role == Role.client) {
-                this.$router.push({ 
-                    name: 'ClientProfile',
-                    params: { 
-                        clientId: user.id.toString()
-                    }
-                });
+            if (!this.checkUserEmail(user)) {
+                this.errorMessage = 'Email not found';
+                return;
             }
-
-            if(user.role == Role.trainer) {
-                this.$router.push({ 
-                    name: 'TrainerProfile',
-                    params: { 
-                        trainerId: user.id.toString()
-                    }
-                });
-            }
-
+            
+            this.redirectUser(user);
             this.loginUser(user);
         } catch (error) {
             console.error('Error occurred:', error);
             this.errorMessage = 'An error occurred. Please try again.';
         }
+    }
+
+    redirectUser(user: DbUser) {
+        const userRole = user.role;
+        const userId = user.id;
+
+        if (userRole == Role.admin) {
+            this.redirectAdminToProfile(userId);
+        } else if (userRole == Role.client) {
+            this.redirectClientToProfile(userId);
+        } else if (userRole == Role.trainer) {
+            this.redirectTrainerToProfile(userId);
+        } else {
+            this.$router.push('/sign-up');
+        }
+    }
+
+    redirectAdminToProfile(userId: number) {
+        this.$router.push({ 
+            name: 'AdminProfile',
+            params: { 
+                adminId: userId.toString()
+            }
+        });
+    }
+
+    redirectClientToProfile(userId: number) {
+        this.$router.push({ 
+            name: 'ClientProfile',
+            params: { 
+                clientId: userId.toString()
+            }
+        });
+    }
+
+    redirectTrainerToProfile(userId: number) {
+        this.$router.push({ 
+            name: 'TrainerProfile',
+            params: { 
+                trainerId: userId.toString()
+            }
+        });
     }
 
     async getUser(): Promise<DbUser> {
