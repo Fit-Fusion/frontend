@@ -1,5 +1,6 @@
 <template>
     <div>
+        <MissionVisionValues />
         <Founder />
         <Directors />
         <Trainers />
@@ -11,9 +12,11 @@ import { Component, Vue } from 'vue-property-decorator';
 import Founder from '../components/sections/Founder.vue';
 import Directors from '../components/sections/Directors.vue';
 import Trainers from '../components/sections/Trainers.vue';
+import MissionVisionValues from '../components/MissionVisionValues.vue';
 
 @Component({
     components: {
+        MissionVisionValues,
         Founder,
         Directors,
         Trainers
