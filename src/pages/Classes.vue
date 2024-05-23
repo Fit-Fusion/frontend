@@ -39,7 +39,7 @@ export default class Classes extends Vue {
         'Boxing': 'assets/images/boxing.webp',
         'Cardio': 'assets/images/cardio.webp',
         'Spa': 'assets/images/spa.webp',
-        'Weight lifting': 'assets/images/deadlift.webp',
+        'Weight Lifting': 'assets/images/deadlift.webp',
         'Strength Training': 'assets/images/strength-training.webp'
     };
 
@@ -81,7 +81,6 @@ export default class Classes extends Vue {
         text-align: center;
         padding: 2rem;
     }
-
 }
 
 .classes {
@@ -89,6 +88,7 @@ export default class Classes extends Vue {
     flex-wrap: wrap;
     justify-content: space-evenly;
     list-style: none;
+    padding-bottom: 2rem;
 }
 
 .class {

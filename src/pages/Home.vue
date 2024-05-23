@@ -5,7 +5,7 @@
             :totalNumberOfYears="totalNumberOfYears"
         />
         <ServicesSection 
-            :areasOfConcentration="areasOfConcentration"
+            :areaOfConcentration="areaOfConcentration"
         />
         <SubscriptionSection 
             :subscriptions="subscriptions"
@@ -38,7 +38,7 @@ export default class Home extends Vue {
 
     public totalUsers = 0;
     public totalNumberOfYears = 0;
-    public areasOfConcentration: AreaOfConcentration[] = [];
+    public areaOfConcentration: AreaOfConcentration[] = [];
     public subscriptions: Subscription[] = [];
     public reviews: Review[] = [];
 
@@ -57,7 +57,7 @@ export default class Home extends Vue {
 
         this.totalNumberOfYears = initialData.totalNumberOfYears;
         this.totalUsers = initialData.users.length;
-        this.areasOfConcentration = initialData.areasOfConcentration;
+        this.areaOfConcentration = initialData.areaOfConcentration;
         this.subscriptions = initialData.subscriptions;
         this.reviews = initialData.reviews;
     }

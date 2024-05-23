@@ -52,21 +52,6 @@
             </ul>
         </div>
         <div class="footer-center">
-            <ul class="footer__nav">
-                <li class="footer__nav-item">
-                    <router-link to="/about-us" class="footer__nav-link">About Us</router-link>
-                </li>
-                <li class="footer__nav-item">
-                    <router-link to="/classes" class="footer__nav-link">Classes</router-link>
-                </li>
-                <li class="footer__nav-item">
-                    <router-link to="/store" class="footer__nav-link">Store</router-link>
-                </li>
-                <li class="footer__nav-item">
-                    <router-link to="/calorie-calculator" class="footer__nav-link">Calorie Calculator</router-link>
-                </li>
-            </ul>
-
             <p class="footer__address">
                 Visit Us <br />
                 Petrovskaya 87, Moscow, 119021
@@ -129,7 +114,6 @@ export default class Footer extends Vue {
         width: 1.5rem;
         height: 1.5rem;
         margin-right: .6rem; 
-
     }
 
     &__icon:hover {
@@ -139,26 +123,15 @@ export default class Footer extends Vue {
         transition: all .2s ease-in
     }
 
-    &__nav {
-        display: flex;
-        flex-direction: row;
-        padding-bottom: 3rem;
-    }
-
-    &__nav-item {
-        list-style-type: none;
-        margin-right: 1rem;
-        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    }
-
-    &__nav-link {
-        color: white;
-        text-decoration: none;
-    }
-
     &__address {
-        color: white;
-        font-size: .8rem;
+        @include screen-bigger-than($tablet) {
+            display: block;
+            padding-top: 5rem;
+            color: white;
+            font-size: .8rem;
+        }
+
+        display: none;
     }
 
     &__call-to-action {
