@@ -2,7 +2,7 @@
     <section class="calorie-calculator-section">
         <h1 class="calorie-calculator-section__title">Calorie Calculator</h1>
 
-        <div v-if="isLoggedIn">
+        <div v-if="userIsLoggedIn">
             <p class="calorie-calculator-section__info">
                 Since you are still logged in, Neccessary info has been taken from your profile 
             </p>
@@ -72,6 +72,7 @@
 import { Vue, Component } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
 import { User } from '../abstracts/Interfaces';
+import { Role } from '../abstracts/Enum';
 
 @Component
 export default class CalorieCalculator extends Vue {
@@ -86,9 +87,14 @@ export default class CalorieCalculator extends Vue {
 
     @Getter('isLoggedIn') isLoggedIn: boolean;
     @Getter('user') user: User;
+    @Getter('userIsAdmin') userIsAdmin: boolean;
+
+    userIsLoggedIn() {
+        return this.isLoggedIn && !this.userIsAdmin;
+    }
 
     fillUserData() {
-        if (this.isLoggedIn && this.user) {
+        if (this.userIsLoggedIn()) {
             this.weight = this.user.weight;
             this.height = this.user.height;
             this.age = this.user.age;

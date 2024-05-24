@@ -18,7 +18,7 @@
                         alt="reviewer image"
                     />
                     <p class="reviewer__name">
-                       {{ reviewerName(review.reviewer_id) }} ({{ review.reviewer_type}}) <br />
+                       {{ getReviewerName(review.reviewer_id) }} ({{ review.reviewer_type}}) <br />
                         <span class="rating">
                             <img 
                                 src="assets/icons/star.svg" 
@@ -61,7 +61,9 @@ import { DbUser, Review } from '../../abstracts/Interfaces.js';
 
 @Component
 export default class ReviewSection extends Vue {
-    public name = 'ReviewSection';   
+    public name = 'ReviewSection'; 
+    
+    private users: DbUser[] = [];
 
     @Prop() public reviews!: Review[];
 
@@ -76,27 +78,28 @@ export default class ReviewSection extends Vue {
         }
     }
 
-    async getReviewerName(reviewerId: number): Promise<string> {
-        try {
-            const user: DbUser = await this.fetchUserData(reviewerId);
+    getReviewerName(reviewerId: number) {
+        const user = this.users.find(user => user.id === reviewerId) as DbUser;
 
-            if (user) {
-                return user.firstname + ' ' + user.lastname;
-            }
-
-            return 'Anonymous';
-        } catch (error) {
-            console.error('Error fetching reviewer name:', error);
-            return 'Anonymous';
-        }
+        return user.firstname + ' ' + user.lastname;
     }
 
-    get reviewerName() {
-        return this.getReviewerName;
+    async getUsers() {
+        try {
+            const response = await axios.get('http://localhost:5555/users');
+            return response.data.users;
+        } catch (error) {
+            console.error('Error fetching users:', error);
+            return [];
+        }
     }
 
     getUserImageUrl(reviewerId: number) {
         // :src="getUserImageUrl(review.reviewer_id)"
+    }
+
+    async mounted() {
+        this.users = await this.getUsers();
     }
 }
 </script>

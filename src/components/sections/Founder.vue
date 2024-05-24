@@ -45,6 +45,7 @@ export default class Founder extends Vue {
     background: $theme-background;
     display: flex;
     align-items: center;
+    padding: 2rem 0;
 
     &__img {
         width: 30%;

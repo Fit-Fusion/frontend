@@ -45,7 +45,7 @@ export default class MissionVisionValues extends Vue {
     flex-direction: row;
     justify-content: space-around;
     padding: 0 7rem;
-    background-color: $black;
+    background: rgb(46, 54, 71);
     color: white;
     
     &__item {

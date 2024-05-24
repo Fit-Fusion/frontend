@@ -39,7 +39,7 @@
                 <button class="actions__button" @click="showEditProfile">Edit Profile</button>
                 <button class="actions__button" @click="showEditTrainerEmailPassword">Reset Email/Password</button>
                 <button class="actions__button">Rate Client</button>
-                <button class="actions__button">Rate FitFusion</button>
+                <button class="actions__button" @click="showRateFitFusion">Rate FitFusion</button>
             </div>
         </div>
 
@@ -74,6 +74,12 @@
             @close="hideEditTrainerEmailPasswordModal"
             @refreshUsers="refreshUsers"
         />
+        <RateFitFusionModal 
+            v-if="showRateFitFusionModal"
+            :reviewerId="trainerId"
+            reviewerRole='trainer'
+            @close="hideRateFitFusionModal"
+        />
     </div>
 </template>
 
@@ -86,6 +92,7 @@ import EditClassModal from '../components/EditClassModal.vue';
 import DeleteClassModal from '../components/DeleteClassModal.vue';
 import EditTrainerModal from '../components/EditTrainerModal.vue';
 import ResetTrainerEmailPassword from '../components/ResetTrainerEmailPassword.vue';
+import RateFitFusionModal from '../components/RateFitFusionModal.vue';
 
 @Component({
     components: {
@@ -94,7 +101,8 @@ import ResetTrainerEmailPassword from '../components/ResetTrainerEmailPassword.v
         EditClassModal,
         DeleteClassModal,
         EditTrainerModal,
-        ResetTrainerEmailPassword        
+        ResetTrainerEmailPassword,
+        RateFitFusionModal       
     }
 })
 export default class TrainerProfile extends Vue {
@@ -114,10 +122,11 @@ export default class TrainerProfile extends Vue {
     private showAddClassModal = false;
     private showEditClassModal = false;
     private showDeleteClassModal = false;
-    private selectedClass: any = null;
-
     private showEditProfileModal = false;
     private showEditTrainerEmailPasswordModal = false;
+    private showRateFitFusionModal = false;
+
+    private selectedClass: any = null;
 
     @Prop({ required: true }) trainerId: string;
 
@@ -145,18 +154,25 @@ export default class TrainerProfile extends Vue {
         this.selectedClass = classData;
         this.showEditClassModal = true;
     }
+    hideEditClassModal() {
+        this.showEditClassModal = false;
+    }
 
     showDeleteClass(classData: any) {
         this.selectedClass = classData;
         this.showDeleteClassModal = true;
     }
 
-    hideEditClassModal() {
-        this.showEditClassModal = false;
-    }
-
     hideDeleteClassModal() {
         this.showDeleteClassModal = false;
+    }
+
+    showRateFitFusion() {
+        this.showRateFitFusionModal = true; 
+    }
+
+    hideRateFitFusionModal() {
+        this.showRateFitFusionModal = false; 
     }
 
     async refreshClasses() {

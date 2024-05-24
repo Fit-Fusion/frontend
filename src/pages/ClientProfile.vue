@@ -77,7 +77,7 @@
                 <button class="actions__button" @click="showEditProfile">Edit Profile</button>
                 <button class="actions__button" @click="showEditClientEmailPassword">Reset Email/Password</button>
                 <button class="actions__button">Rate Trainer</button>
-                <button class="actions__button">Rate FitFusion</button>
+                <button class="actions__button" @click="showRateFitFusion">Rate FitFusion</button>
             </div>
 
             <p class="client__advert">
@@ -104,6 +104,13 @@
             @close="hideEditClientEmailPasswordModal"
             @refreshUsers="refreshUsers"
         />
+
+        <RateFitFusionModal 
+            v-if="showRateFitFusionModal"
+            :reviewerId="clientId"
+            reviewerRole='client'
+            @close="hideRateFitFusionModal"
+        />
     </div>
 </template>
 
@@ -113,12 +120,14 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import UserClasses from '../components/UserClasses.vue';
 import EditClientModal from '../components/EditClientModal.vue';
 import ResetClientEmailPassword from '../components/ResetClientEmailPassword.vue';
+import RateFitFusionModal from '../components/RateFitFusionModal.vue';
 
 @Component({
     components: {
         UserClasses,
         EditClientModal,
-        ResetClientEmailPassword
+        ResetClientEmailPassword,
+        RateFitFusionModal
     }
 })
 export default class ClientProfile extends Vue {
@@ -137,6 +146,7 @@ export default class ClientProfile extends Vue {
 
     private showEditProfileModal = false;
     private showEditClientEmailPasswordModal = false;
+    private showRateFitFusionModal = false;
 
     @Prop({ required: true }) clientId: string;
 
@@ -236,12 +246,20 @@ export default class ClientProfile extends Vue {
         this.showEditClientEmailPasswordModal = true; 
     }
 
+    showRateFitFusion() {
+        this.showRateFitFusionModal = true; 
+    }
+
     hideEditProfileModal() {
         this.showEditProfileModal = false; 
     }
 
     hideEditClientEmailPasswordModal() {
         this.showEditClientEmailPasswordModal = false; 
+    }
+
+    hideRateFitFusionModal() {
+        this.showRateFitFusionModal = false; 
     }
 
     async refreshUsers() {    

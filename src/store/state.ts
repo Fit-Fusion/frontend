@@ -17,8 +17,7 @@ const state: State = {
         gender: '',
         password: ''
     },
-    isLoggedIn: false,
-    lastUserInteraction: 0
+    isLoggedIn: false
 }
 
 export default state;

@@ -1,4 +1,5 @@
 
+import { Role } from '../abstracts/Enum';
 import { State } from './types';
 
 const getters = {
@@ -10,8 +11,16 @@ const getters = {
         return state.isLoggedIn;
     },
 
-    loggedInUserId(state: State) {
+    userId(state: State) {
         return state.user.id;
+    },
+
+    userRole(state: State) {
+        return state.user.role;
+    },
+
+    userIsNotAdmin(state: State) {
+        return state.user.role != Role.admin;
     }
 }
 

@@ -1,5 +1,8 @@
 <template>
-    <div class="manage-classes-modal">
+    <div 
+        class="manage-classes-modal"
+        @click="close"
+    >
         <div 
             class="manage-classes-modal__content"
             @click.stop
@@ -70,6 +73,7 @@ export default class ManageClassesModal extends Vue {
 }
 </script>
 
+
 <style lang="scss" scoped>
 @import '../scss/styles';
 
@@ -90,11 +94,10 @@ export default class ManageClassesModal extends Vue {
         display: flex;
         flex-direction: column;
         background: $black;
-        border-radius: 1rem;
-        width: 90%;
-        max-width: 50rem;
-        height: 90%;
-        padding: 2rem;
+        border-radius: .5rem;
+        width: 80%;
+        height: 80%;
+        padding: 1rem;
         margin: 0 auto;
         overflow: hidden;
     }
@@ -113,18 +116,19 @@ export default class ManageClassesModal extends Vue {
     &__table {
         width: 100%;
         border-collapse: collapse;
-        margin-bottom: 1rem;
         color: $white;
-        table-layout: fixed;
+        min-width: 1000px; /* Ensuring horizontal scroll */
 
         th, td {
-            padding: 0.75rem;
-            text-align: left;
+            text-align: center;
             border: 1px solid $white;
+            padding: 0.5rem;
+            white-space: nowrap; /* Prevent content from wrapping */
         }
 
         th {
-            background-color: $theme-color;
+            background-color: $grey;
+            color: $black;
         }
     }
 
@@ -137,7 +141,7 @@ export default class ManageClassesModal extends Vue {
         border: none;
         cursor: pointer;
         border-radius: 0.3rem;
-        color: $white;
+        color: $black;
     }
 
     &__close-button:hover {

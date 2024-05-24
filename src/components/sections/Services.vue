@@ -1,7 +1,7 @@
 <template>
     <section class="services">
         <div 
-            v-for="(service, index) in areaOfConcentration"
+            v-for="(service, index) in areasOfConcentration"
             :key="service.id"
             :style="{ 
                 'background': `
@@ -34,7 +34,7 @@ export default class ServicesSection extends Vue {
         'assets/images/strength-training.webp'
     ]
 
-    @Prop() public areaOfConcentration!: AreaOfConcentration[];
+    @Prop() public areasOfConcentration!: AreaOfConcentration[];
 
     private serviceRefs: (HTMLElement | null)[] = [];
 

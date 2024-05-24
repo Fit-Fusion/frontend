@@ -15,22 +15,13 @@
                 </div>
             </div>
 
-            <!-- <div class="admin-info">
-                <div class="admin-info__item">
-                    <i class="admin-info__icon"><i class="fas fa-user"></i></i>
-                    <div class="admin-info__wrapper">
-                        <p class="admin__basic-info">{{ role }}</p>
-                        <p class="admin__basic-info-title">Role</p>
-                    </div>
-                </div>
-            </div> -->
-
             <h3 class="admin__actions-title">Actions</h3>
 
             <div class="actions">
                 <button class="actions__button" @click="showEditProfile">Edit Profile</button>
                 <button class="actions__button" @click="showManageUsersModal">Manage Users</button>
                 <button class="actions__button" @click="showManageClassesModal">Manage Classes</button>
+                <button class="actions__button" @click="showManageReviewsModal">Manage Reviews</button>
                 <button class="actions__button">Manage Products</button>
             </div>
         </div>
@@ -43,14 +34,16 @@
         />  
         <ManageUsersModal
             v-if="showManageUsers"
-            :visible="showManageUsers"
             @close="hideManageUsersModal"
         /> 
         <ManageClassesModal
             v-if="showManageClasses"
-            :visible="showManageClasses"
             @close="hideManageClassesModal"
         /> 
+        <ManageReviewsModal
+            v-if="showManageReviews"
+            @close="hideManageReviewsModal"
+        />
     </div>
 </template>
 
@@ -60,12 +53,14 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import EditAdminModal from '../components/EditAdminModal.vue';
 import ManageUsersModal from '../components/ManageUsersModal.vue';
 import ManageClassesModal from '../components/ManageClassesModal.vue';
+import ManageReviewsModal from '../components/ManageReviewsModal.vue';
 
 @Component({
     components: {
         EditAdminModal,
         ManageUsersModal,
-        ManageClassesModal
+        ManageClassesModal,
+        ManageReviewsModal
     }
 })
 export default class AdminProfile extends Vue {
@@ -81,6 +76,7 @@ export default class AdminProfile extends Vue {
     private showEditProfileModal = false;
     private showManageUsers = false;
     private showManageClasses = false;
+    private showManageReviews = false;
 
 
     @Prop({ required: true }) adminId: string;
@@ -140,6 +136,14 @@ export default class AdminProfile extends Vue {
 
     hideManageClassesModal() {
         this.showManageClasses = false;
+    }
+
+    showManageReviewsModal() {
+        this.showManageReviews = true;
+    }
+
+    hideManageReviewsModal() {
+        this.showManageReviews = false;
     }
 
     async refreshUsers() {

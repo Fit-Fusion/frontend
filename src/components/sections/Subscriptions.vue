@@ -36,14 +36,14 @@ export default class SubscriptionSection extends Vue {
 
     @Prop() subscriptions: Subscription[];
     @Getter('isLoggedIn') isLoggedIn: boolean;
-    @Getter('loggedInUserId') loggedInUserId: string
+    @Getter('userId') userId: string
 
     redirectToProfileOrLogin() {
         if (this.isLoggedIn) {
             this.$router.push({ 
                 name: 'ClientProfile',
                 params: { 
-                    clientId: this.loggedInUserId.toString()
+                    clientId: this.userId.toString()
                 }
             });
         } else {
@@ -60,7 +60,7 @@ export default class SubscriptionSection extends Vue {
     background: url('/assets/images/subscription-bg.webp');
     background-size: cover;
     padding-top: 1.5rem;
-    margin-top: 4rem;
+    margin: 4rem 0;
 
     &__title {
         text-align: center;

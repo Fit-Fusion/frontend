@@ -44,7 +44,8 @@ export default class Classes extends Vue {
     };
 
     @Getter('isLoggedIn') isLoggedIn: boolean;
-    @Getter('loggedInUserId') loggedInUserId: string;
+    @Getter('userId') userId: string;
+    @Getter('isClient') isClient: boolean;
 
     get classDescriptions() {
         return CLASS_DESCRIPTION;
@@ -56,11 +57,11 @@ export default class Classes extends Vue {
 
     // Improve
     subscribeToClass(className: string) {
-        if (this.isLoggedIn) {
+        if (this.isLoggedIn && this.isClient) {
             this.$router.push({ 
                 name: 'ClientProfile',
                 params: { 
-                    clientId: this.loggedInUserId.toString()
+                    clientId: this.userId.toString()
                 }
             });
         } else {

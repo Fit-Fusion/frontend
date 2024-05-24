@@ -25,24 +25,6 @@
                 required 
             />
 
-            <!-- <label class="edit-client-modal__form-label">Email:</label>
-            <input 
-                class="edit-client-modal__form-input"
-                type="email" 
-                v-model="email" 
-                placeholder="Email" 
-                required 
-            />
-
-            <label class="edit-client-modal__form-label">Password:</label>
-            <input 
-                class="edit-client-modal__form-input"
-                type="password" 
-                v-model="password" 
-                placeholder="Password" 
-                required 
-            /> -->
-
             <select 
                 class="edit-client-modal__form-input"
                 v-model="gender" 
@@ -107,6 +89,8 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
 export default class EditClientProfile extends Vue {
+    public name = 'EditClientModal';
+    
     @Prop({ required: true }) clientId: number;
 
     public firstname = '';

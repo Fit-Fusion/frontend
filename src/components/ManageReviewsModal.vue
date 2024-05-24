@@ -1,53 +1,39 @@
 <template>
     <div 
-        class="manage-users-modal"
+        class="manage-reviews-modal"
         @click="close"
     >
         <div 
-            class="manage-users-modal__content"
+            class="manage-reviews-modal__content"
             @click.stop
         >
-            <h4 class="manage-users-modal__title">Manage Users</h4>
-            <div class="manage-users-modal__table-wrapper">
-                <table class="manage-users-modal__table">
+            <h4 class="manage-reviews-modal__title">Manage Reviews</h4>
+            <div class="manage-reviews-modal__table-wrapper">
+                <table class="manage-reviews-modal__table">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Password</th>
-                            <th>Email</th>  
-                            <th>Phone Number</th>
-                            <th>Area of Concentration</th>
-                            <th>Weight</th>
-                            <th>Height</th>
-                            <th>Age</th>
-                            <th>Gender</th>
-                            <th>Role</th>
-                            <th>Plan ID</th>
+                            <th>Description</th>
+                            <th>Rating</th>
+                            <th>Reviewer ID</th>
+                            <th>Reviewer Type</th>
+                            <th>Review Date</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="user in users" :key="user.id">
-                            <td>{{ user.id }}</td>
-                            <td>{{ user.firstname }}</td>
-                            <td>{{ user.lastname }}</td>
-                            <td>{{ user.password }}</td>
-                            <td>{{ user.email }}</td>
-                            <td>{{ user.phone_number }}</td>
-                            <td>{{ user.area_of_concentration }}</td>
-                            <td>{{ user.weight }}</td>
-                            <td>{{ user.height }}</td>
-                            <td>{{ user.age }}</td>
-                            <td>{{ user.gender }}</td>
-                            <td>{{ user.role }}</td>
-                            <td>{{ user.plan_id }}</td>
+                        <tr v-for="review in reviews" :key="review.id">
+                            <td>{{ review.id }}</td>
+                            <td>{{ review.description }}</td>
+                            <td>{{ review.rating }}</td>
+                            <td>{{ review.reviewer_id }}</td>
+                            <td>{{ review.reviewer_type }}</td>
+                            <td>{{ review.review_date }}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <button 
-                class="manage-users-modal__close-button"
+                class="manage-reviews-modal__close-button"
                 @click="close"
             >
                 Close
@@ -56,23 +42,23 @@
     </div>
 </template>
 
-
 <script lang="ts">
 import axios from 'axios';
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component
-export default class ManageUsersModal extends Vue {
-    public name = 'ManageUsersModal';
+export default class ManageReviewsModal extends Vue {
+    public name = 'ManageReviewsModal';
 
-    public users: Array<any> = [];
+    public reviews: Array<any> = [];
 
     async initializeData() {
         try {
-            const response = await axios.get('http://localhost:5555/users');
-            this.users = response.data.users;
+            const response = await axios.get('http://localhost:5555/reviews');
+
+            this.reviews = response.data.reviews;
         } catch (error) {
-            console.error('Error fetching users:', error);
+            console.error('Error fetching reviews:', error);
         }
     }
 
@@ -86,10 +72,11 @@ export default class ManageUsersModal extends Vue {
 }
 </script>
 
+
 <style lang="scss" scoped>
 @import '../scss/styles';
 
-.manage-users-modal {
+.manage-reviews-modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -129,13 +116,13 @@ export default class ManageUsersModal extends Vue {
         width: 100%;
         border-collapse: collapse;
         color: $white;
-        min-width: 1000px; /* Ensuring horizontal scroll */
+        min-width: 100rem;
 
         th, td {
             text-align: center;
             border: 1px solid $white;
             padding: 0.5rem;
-            white-space: nowrap; /* Prevent content from wrapping */
+            white-space: nowrap;
         }
 
         th {
