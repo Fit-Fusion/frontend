@@ -47,8 +47,8 @@
             />
             <input 
                 class="sign-up__form-input"
-                type="date"
-                v-model="dateOfBirth" 
+                type="number"
+                v-model="age" 
                 placeholder="Date Of Birth" 
                 required
             />
@@ -109,7 +109,7 @@ export default class SignUp extends Vue {
     private lastName: string = '';
     private email: string = '';
     private phoneNumber: string = '';
-    private dateOfBirth: string = '';
+    private age = 0;
     private areaOfConcentration: string = '';
     private weight = 0;
     private height = 0;
@@ -134,7 +134,7 @@ export default class SignUp extends Vue {
             lastname: this.lastName,
             email: this.email,
             phoneNumber: this.phoneNumber,
-            age: this.calculateAge(this.dateOfBirth),
+            age: this.age,
             areaOfConcentration: this.areaOfConcentration,
             weight: this.weight,
             height: this.height,
@@ -148,25 +148,11 @@ export default class SignUp extends Vue {
         this.lastName = '';
         this.email = '';
         this.phoneNumber = '';
-        this.dateOfBirth = '';
+        this.age = 0;
         this.areaOfConcentration = '';
         this.weight = 0;
         this.height = 0;
         this.gender = '';
-    }
-
-    calculateAge(dateOfBirth: string): number {
-        const dob = new Date(dateOfBirth);
-        const today = new Date();
-    
-        let age = today.getFullYear() - dob.getFullYear();
-        const monthDiff = today.getMonth() - dob.getMonth();
-
-        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
-            age--;
-        }
-
-        return age;
     }
 }
 

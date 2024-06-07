@@ -1,30 +1,30 @@
 <template>
-    <div class="user-class">
-        <span class="user-class__data">{{ userClass.date }} &nbsp;</span>
-        <span class="user-class__data">{{ userClass.start }} - {{ userClass.end }}</span>
-        
+    <tr>
+        <td class="user-class__td">{{ userClass.date }}</td>
+        <td class="user-class__td">{{ userClass.start }} - {{ userClass.end }}</td>
         <template v-if="role === 'client'">
-            <span class="user-class__data">{{ userClass.instructorName }}</span>
-            <!-- Upcoming | Ongoing | Completed | Cancelled  -->
-            <span class="user-class__data">Upcoming</span>
+            <td class="user-class__td">{{ userClass.instructorName }}</td>
+            <td class="user-class__td">Upcoming</td>
         </template>
         <template v-else>
-            <button 
-                class="user-class__button user-class__button_edit"
-                @click="editClass"
-            >
-                Edit
-            </button>
-            <button 
-                class="user-class__button user-class__button_delete"
-                @click="deleteClass"
-            >
-                Delete
-            </button>
+            <td class="user-class__td">
+                <button 
+                    class="user-class__button user-class__button_edit"
+                    @click="editClass"
+                >
+                    Edit
+                </button>
+                <button 
+                    class="user-class__button user-class__button_delete"
+                    @click="deleteClass"
+                >
+                    Delete
+                </button>
+            </td>
         </template>
-
-    </div>
+    </tr>
 </template>
+
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
@@ -50,18 +50,11 @@ export default class UserClass extends Vue {
 @import '../scss/styles';
 
 .user-class {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem;
-    border-bottom: 1px solid $white;
-    font-weight: 600;
-    color: $black;
-
-    &__data {
-        flex: 1;
+    &__td {
+        border: 1px solid $white;
+        padding: 1rem;
+        background-color: rgba(255, 255, 255, 0.05);
     }
-
     &__button {
         background-color: $theme-color;
         border: none;
@@ -72,9 +65,11 @@ export default class UserClass extends Vue {
         margin: .2rem;
         cursor: pointer;
     }
-
+    
     &__button_delete {
         background: $red;
     }
 }
+
+
 </style>

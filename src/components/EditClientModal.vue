@@ -1,5 +1,5 @@
 <template>
-    <div class="edit-client-modal">
+    <div class="edit-client-modal" @click="close">
         <form 
             class="edit-client-modal__form"
             @submit.prevent="saveEdit"

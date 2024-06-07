@@ -1,20 +1,33 @@
 <template>
     <div class="user-classes">
         <h3 class="user-classes__title">Classes</h3>
-        <ul class="user-classes__list">
-            <li 
-                v-for="userClass in userClasses" 
-                :key="userClass.id"
-                class="user-classes__item"
-            >
-                <UserClass 
-                    :userClass="userClass"
-                    :role="role"
-                    @editClass="handleEditClass"
-                    @deleteClass="handleDeleteClass"
-                />
-            </li>
-        </ul>
+        <div class="user-classes__table-container">
+            <table class="user-classes__table">
+                <thead>
+                    <tr>
+                        <th class="user-classes__table-header">Date</th>
+                        <th class="user-classes__table-header">Time</th>
+                        <template v-if="role === 'client'">
+                            <th class="user-classes__table-header">Instructor</th>
+                            <th class="user-classes__table-header">Status</th>
+                        </template>
+                        <template v-else>
+                            <th class="user-classes__table-header">Actions</th>
+                        </template>
+                    </tr>
+                </thead>
+                <tbody>
+                    <UserClass 
+                        v-for="userClass in userClasses" 
+                        :key="userClass.id"
+                        :userClass="userClass"
+                        :role="role"
+                        @editClass="handleEditClass"
+                        @deleteClass="handleDeleteClass"
+                    />
+                </tbody>
+            </table>
+        </div>
 
         <template v-if="role === 'trainer'">
             <button 
@@ -66,13 +79,36 @@ export default class UserClasses extends Vue {
     &__title {
         text-align: center;
         font-size: 2rem;
-        text-decoration: underline;
     }
 
-    &__list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
+    &__table-container {
+        overflow-x: auto;
+        margin-top: 1rem;
+    }
+
+    &__table {
+        width: 100%;
+        border-collapse: collapse;
+        color: $white;
+        table-layout: fixed; /* Ensures even distribution of columns */
+    }
+
+    th, td {
+        padding: 1rem;
+        border: 1px solid $white;
+        text-align: left;
+    }
+
+    th {
+        background-color: rgba(68, 91, 112, 0.1);
+    }
+
+    td {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    &__table-header {
+        width: 25%; /* Ensures each column takes up an equal width */
     }
 
     &__button {
@@ -87,5 +123,4 @@ export default class UserClasses extends Vue {
         cursor: pointer;
     }
 }
-
 </style>

@@ -76,7 +76,6 @@
             <div class="actions">
                 <button class="actions__button" @click="showEditProfile">Edit Profile</button>
                 <button class="actions__button" @click="showEditClientEmailPassword">Reset Email/Password</button>
-                <button class="actions__button">Rate Trainer</button>
                 <button class="actions__button" @click="showRateFitFusion">Rate FitFusion</button>
             </div>
 

@@ -38,7 +38,6 @@
             <div class="actions">
                 <button class="actions__button" @click="showEditProfile">Edit Profile</button>
                 <button class="actions__button" @click="showEditTrainerEmailPassword">Reset Email/Password</button>
-                <button class="actions__button">Rate Client</button>
                 <button class="actions__button" @click="showRateFitFusion">Rate FitFusion</button>
             </div>
         </div>
@@ -88,7 +87,7 @@ import axios from 'axios';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import UserClasses from '../components/UserClasses.vue';
 import AddClass from '../components/AddClass.vue';
-import EditClassModal from '../components/EditClassModal.vue';
+import EditClassModal from '../components/TrainerEditClassModal.vue';
 import DeleteClassModal from '../components/DeleteClassModal.vue';
 import EditTrainerModal from '../components/EditTrainerModal.vue';
 import ResetTrainerEmailPassword from '../components/ResetTrainerEmailPassword.vue';
@@ -205,7 +204,7 @@ export default class TrainerProfile extends Vue {
                 start: classe.start_time,
                 end:classe.end_time,
                 instructorName: this.fullname,
-                trainerId: this.trainerId
+                trainer_id: this.trainerId
             }
         });
     }

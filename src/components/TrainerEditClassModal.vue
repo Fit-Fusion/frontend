@@ -61,7 +61,9 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import CLASS_DESCRIPTION from '../abstracts/ClassDescription';
 
 @Component
-export default class EditClassModal extends Vue {
+export default class TrainerEditClassModal extends Vue {
+    public name = 'TrainerEditClassModal';
+    
     @Prop({ required: true }) classData: any;
 
     public className = '';
@@ -78,7 +80,7 @@ export default class EditClassModal extends Vue {
                 description: this.getClassDescription(),
                 start_time: this.classStartTime,
                 end_time: this.classEndTime,
-                trainer_id: this.classData.trainerId
+                trainer_id: this.classData.trainer_id
             };
 
             await axios.put(`http://localhost:5555/classes/${editedClass.id}`, editedClass);

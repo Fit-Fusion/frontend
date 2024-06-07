@@ -3,9 +3,10 @@
         <MainSection
             :totalUsers="totalUsers"
             :totalNumberOfYears="totalNumberOfYears"
+            :totalTrainers="totalTrainers"
         />
         <ServicesSection 
-            :areaOfConcentration="areaOfConcentration"
+            :areasOfConcentration="areasOfConcentration"
         />
         <SubscriptionSection 
             :subscriptions="subscriptions"
@@ -37,8 +38,9 @@ export default class Home extends Vue {
     public name = 'Home';
 
     public totalUsers = 0;
+    public totalTrainers = 0;
     public totalNumberOfYears = 0;
-    public areaOfConcentration: AreaOfConcentration[] = [];
+    public areasOfConcentration: AreaOfConcentration[] = [];
     public subscriptions: Subscription[] = [];
     public reviews: Review[] = [];
 
@@ -55,9 +57,12 @@ export default class Home extends Vue {
     private async initializeData() {
         const initialData = await this.fetchInitialData();
 
+        console.log(initialData)
+
         this.totalNumberOfYears = initialData.totalNumberOfYears;
-        this.totalUsers = initialData.users.length;
-        this.areaOfConcentration = initialData.areaOfConcentration;
+        this.totalUsers = initialData.totalUsers;
+        this.totalTrainers = initialData.totalTrainers;
+        this.areasOfConcentration = initialData.areasOfConcentration;
         this.subscriptions = initialData.subscriptions;
         this.reviews = initialData.reviews;
     }

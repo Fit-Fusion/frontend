@@ -14,59 +14,16 @@ import AdminProfile from './pages/AdminProfile.vue';
 Vue.use(VueRouter);
 
 const routes = [
-    {
-        path: '/',
-        name: 'home',
-        component: Home
-    },
-    {
-        path: '/about-us',
-        name: 'AboutUs',
-        component: AboutUs
-    },
-    {
-        path: '/classes',
-        name: 'classes',
-        component: Classes
-    },
-    {
-        path: '/store',
-        name: 'Store',
-        component: Store
-    },
-    {
-        path: '/login',
-        name: 'Login',
-        component: Login
-    },
-    {
-        path: '/sign-up',
-        name: 'SignUp',
-        component: SignUp
-    },
-    {
-        path: '/profile/client/:clientId',
-        name: 'ClientProfile',
-        component: ClientProfile,
-        props: true
-    },
-    {
-        path: '/profile/trainer/:trainerId',
-        name: 'TrainerProfile',
-        component: TrainerProfile,
-        props: true
-    },
-    {
-        path: '/calorie-calculator',
-        name: 'CalorieCalculator',
-        component: CalorieCalculator
-    },
-    {
-        path: '/profile/admin/:adminId',
-        name: 'AdminProfile',
-        component: AdminProfile,
-        props: true
-    }
+    { path: '/', name: 'home', component: Home },
+    { path: '/about-us', name: 'AboutUs', component: AboutUs },
+    { path: '/classes', name: 'classes', component: Classes },
+    { path: '/store', name: 'Store', component: Store },
+    { path: '/login', name: 'Login', component: Login },
+    { path: '/sign-up', name: 'SignUp', component: SignUp },
+    { path: '/profile/client/:clientId', name: 'ClientProfile', component: ClientProfile, props: true },
+    { path: '/profile/trainer/:trainerId', name: 'TrainerProfile', component: TrainerProfile, props: true },
+    { path: '/calorie-calculator', name: 'CalorieCalculator', component: CalorieCalculator },
+    { path: '/profile/admin/:adminId', name: 'AdminProfile', component: AdminProfile, props: true }
 ];
 
 const router = new VueRouter({

@@ -43,7 +43,7 @@
                 <span class="main-section__stat-text">Members</span>
             </div>
             <div class="main-section__stat">
-                <span class="main-section__stat-number hollow">30+</span>
+                <span class="main-section__stat-number hollow">{{ totalTrainers }}+</span>
                 <span class="main-section__stat-text">Trainers</span>
             </div>
             <div class="main-section__stat">
@@ -63,6 +63,7 @@ export default class MainSection extends Vue {
     
     @Prop() public totalNumberOfYears: number;
     @Prop() public totalUsers: number;
+    @Prop() public totalTrainers: number;
 
 }
 </script>

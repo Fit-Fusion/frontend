@@ -59,26 +59,40 @@
                 info@fitfusion.ru
             </p>
         </div>
-        <div class="footer-right">
-            <div>
-                <p class="footer__call-to-action">Subscribe to News</p>
-
-                <input key="email" type="email" class="footer__input" placeholder="Your email" />
-                <button class="footer__button">Subscribe</button> 
-            </div>
+        <form 
+            @submit.prevent="sendMessage"
+            class="footer-right"
+        >
             <textarea 
                 class="footer__textarea" 
                 name="message" 
                 rows="4" 
                 cols="25"
+                v-model="message"
                 placeholder="Send us a message..."
-            />    
-        </div>
+            />   
+            <div>
+                <input 
+                    type="email" 
+                    class="footer__input" 
+                    v-model="email"
+                    placeholder="Your email" 
+                    required
+                />
+                <button 
+                    class="footer__button"
+                    type="submit"
+                >
+                    Send
+                </button>
+            </div>
+        </form>
     </footer>
 </template>
 
 <script lang="ts">
-import { Vue, Component} from 'vue-property-decorator';
+import axios from 'axios';
+import { Vue, Component } from 'vue-property-decorator';
 import Logo from './Logo.vue';
 
 @Component({
@@ -88,6 +102,39 @@ import Logo from './Logo.vue';
 })
 export default class Footer extends Vue {
     public name = 'Footer';   
+
+    private email = '';
+    private message = '';
+
+    async sendMessage() {
+        try {
+            const newMessage = {
+                sender_email: this.email,
+                message: this.message,
+                date: this.getCurrentFormattedDate()
+            };
+
+            await axios.post('http://localhost:5555/message', newMessage);
+        } catch(error) {
+            console.error('Error Posting Review:', error);
+        }
+
+        this.clearForm();
+    }
+
+    clearForm() {
+        this.email = '';
+        this.message = '';
+    }
+
+    getCurrentFormattedDate() {
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based, so add 1
+        const day = String(date.getDate()).padStart(2, '0');
+        
+        return `${year}-${month}-${day}`;
+    }
 
 }
 </script>
@@ -134,10 +181,8 @@ export default class Footer extends Vue {
         display: none;
     }
 
-    &__call-to-action {
-        color: white;
-        font-size: .9rem;
-        padding-bottom: .3rem;
+    &__input {
+        height: 2rem;
     }
 
     &__button {
@@ -154,7 +199,7 @@ export default class Footer extends Vue {
     }
 
     &__textarea {
-        margin-top: .7rem;
+        margin-bottom: .7rem;
         padding: .2rem;
     }
 }

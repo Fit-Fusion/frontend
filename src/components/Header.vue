@@ -1,7 +1,7 @@
 <template>
     <header class="header">
         <Logo /> 
-        <HeaderNav v-if="showNav"/>
+        <HeaderNav />
     </header>
 </template>
 
@@ -19,10 +19,6 @@ import HeaderNav from './HeaderNav.vue';
 export default class Header extends Vue {
     public name = 'Header';
     public showNav = true;
-    
-    public toggleNav() {
-        this.showNav = !this.showNav;
-    }
 }
 </script>
 

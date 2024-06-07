@@ -19,10 +19,10 @@
 
             <div class="actions">
                 <button class="actions__button" @click="showEditProfile">Edit Profile</button>
-                <button class="actions__button" @click="showManageUsersModal">Manage Users</button>
-                <button class="actions__button" @click="showManageClassesModal">Manage Classes</button>
-                <button class="actions__button" @click="showManageReviewsModal">Manage Reviews</button>
-                <button class="actions__button">Manage Products</button>
+                <button class="actions__button" @click="toggleTable('users')">Manage Users</button>
+                <button class="actions__button" @click="toggleTable('classes')">Manage Classes</button>
+                <button class="actions__button" @click="toggleTable('reviews')">Manage Reviews</button>
+                <button class="actions__button" @click="toggleTable('messages')">View Messages</button>
             </div>
         </div>
 
@@ -32,17 +32,29 @@
             @close="hideEditProfileModal"
             @refreshUsers="refreshUsers"
         />  
-        <ManageUsersModal
-            v-if="showManageUsers"
-            @close="hideManageUsersModal"
+        <UsersTable
+            v-if="showUsersTable"
+            :users="users"
+            @close="hideUsersTable"
+            @refreshUsers="initializeUsers"
         /> 
-        <ManageClassesModal
-            v-if="showManageClasses"
-            @close="hideManageClassesModal"
+        <ClassesTable
+            v-if="showClassesTable"
+            :classes="classes"
+            @close="hideClassesTable"
+            @refreshClasses="initializeClasses"
         /> 
-        <ManageReviewsModal
-            v-if="showManageReviews"
-            @close="hideManageReviewsModal"
+        <ReviewsTable
+            v-if="showReviewsTable"
+            :reviews="reviews"
+            @close="hideReviewsTable"
+            @refreshReviews="initializeReviews"
+        />
+        <MessagesTable
+            v-if="showMessagesTable"
+            :messages="messages"
+            @close="hideMessagesTable"
+            @refreshMessages="initializeMessages"
         />
     </div>
 </template>
@@ -51,16 +63,18 @@
 import axios from 'axios';
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import EditAdminModal from '../components/EditAdminModal.vue';
-import ManageUsersModal from '../components/ManageUsersModal.vue';
-import ManageClassesModal from '../components/ManageClassesModal.vue';
-import ManageReviewsModal from '../components/ManageReviewsModal.vue';
+import ClassesTable from '../components/ClassesTable.vue';
+import ReviewsTable from '../components/ReviewsTable.vue';
+import UsersTable from '../components/UsersTable.vue';
+import MessagesTable from '../components/MessagesTable.vue';
 
 @Component({
     components: {
         EditAdminModal,
-        ManageUsersModal,
-        ManageClassesModal,
-        ManageReviewsModal
+        UsersTable,
+        ClassesTable,
+        ReviewsTable,
+        MessagesTable
     }
 })
 export default class AdminProfile extends Vue {
@@ -74,24 +88,85 @@ export default class AdminProfile extends Vue {
     public password = '';
 
     private showEditProfileModal = false;
-    private showManageUsers = false;
-    private showManageClasses = false;
-    private showManageReviews = false;
+    private showUsersTable = false;
+    private showClassesTable = false;
+    private showReviewsTable = false;
+    private showMessagesTable = false;
 
+    private classes: any[] = [];
+    private users: any[] = [];
+    private reviews: any[] = [];
+    private messages: any[] = [];
 
     @Prop({ required: true }) adminId: string;
 
     async initializeData() { 
         try {
-            const user = await this.getAdmin();
+            const admin = await this.getAdmin();
+            this.initiateAdmin(admin);
 
-            this.initiateUser(user);
+            await this.initializeClasses();
+            await this.initializeUsers();
+            await this.initializeReviews();
+            await this.initializeMessages();
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     }
 
-    initiateUser(user: any) {
+    async initializeClasses() {
+        try {
+            const response = await axios.get('http://localhost:5555/classes');
+            const classes = response.data.classes;
+
+            this.classes = classes.map((classe: any) => {
+                return {
+                    ...classe,
+                    date: this.formatDate(classe.date)
+                };
+            });
+        } catch (error) {
+            console.error('Error fetching classes:', error);
+        }
+    }
+
+    formatDate(dateString: string): string {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+
+        return `${year}-${month}-${day}`;
+    }
+
+    async initializeUsers() {
+        try {
+            const response = await axios.get('http://localhost:5555/users');
+            this.users = response.data.users;
+        } catch (error) {
+            console.error('Error fetching users:', error);
+        }
+    }
+
+    async initializeReviews() {
+        try {
+            const response = await axios.get('http://localhost:5555/reviews');
+            this.reviews = response.data.reviews;
+        } catch (error) {
+            console.error('Error fetching reviews:', error);
+        }
+    }
+
+    async initializeMessages() {
+        try {
+            const response = await axios.get('http://localhost:5555/messages');
+            this.messages = response.data.messages;
+        } catch (error) {
+            console.error('Error fetching reviews:', error);
+        }
+    }
+    
+    initiateAdmin(user: any) {
         this.firstname = user.firstname;
         this.lastname = user.lastname;
         this.fullname = this.getFullName(this.firstname, this.lastname);
@@ -122,28 +197,27 @@ export default class AdminProfile extends Vue {
         this.showEditProfileModal = false; 
     }
 
-    showManageUsersModal() {
-        this.showManageUsers = true;
+    toggleTable(table: string) {
+        this.showUsersTable = table === 'users' ? !this.showUsersTable : false;
+        this.showClassesTable = table === 'classes' ? !this.showClassesTable : false;
+        this.showReviewsTable = table === 'reviews' ? !this.showReviewsTable : false;
+        this.showMessagesTable = table === 'messages' ? !this.showMessagesTable : false;
     }
 
-    hideManageUsersModal() {
-        this.showManageUsers = false;
+    hideUsersTable() {
+        this.showUsersTable = false;
+    }   
+
+    hideClassesTable() {
+        this.showClassesTable = false;
     }
 
-    showManageClassesModal() {
-        this.showManageClasses = true;
+    hideReviewsTable() {
+        this.showReviewsTable = false;
     }
 
-    hideManageClassesModal() {
-        this.showManageClasses = false;
-    }
-
-    showManageReviewsModal() {
-        this.showManageReviews = true;
-    }
-
-    hideManageReviewsModal() {
-        this.showManageReviews = false;
+    hideMessagesTable() {
+        this.showMessagesTable = false; 
     }
 
     async refreshUsers() {
@@ -172,6 +246,7 @@ export default class AdminProfile extends Vue {
     display: flex;
     flex-direction: column;
     justify-items: center;
+    margin-bottom: 2rem;
 
     &__bio-wrapper {
         display: flex;
@@ -240,8 +315,7 @@ export default class AdminProfile extends Vue {
 .actions {
     display: flex;
     flex-direction: row;
-    margin-bottom: 1rem;
-    padding-bottom: 8rem;
+    margin-bottom: 6rem;
 
     &__button {
         background-color: $theme-background;

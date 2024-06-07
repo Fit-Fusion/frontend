@@ -1,5 +1,5 @@
 <template>
-    <div class="rate-fitfusion-modal">
+    <div class="rate-fitfusion-modal" @click="close">
         <form 
             class="rate-fitfusion-modal__form"
             @submit.prevent="sendReview"

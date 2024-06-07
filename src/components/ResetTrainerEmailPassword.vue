@@ -1,5 +1,5 @@
 <template>
-    <div class="reset-trainer-email-password">
+    <div class="reset-trainer-email-password" @click="close">
         <form 
             class="reset-trainer-email-password__form"
             @submit.prevent="saveEdit"

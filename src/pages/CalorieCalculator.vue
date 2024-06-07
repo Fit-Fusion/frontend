@@ -2,7 +2,7 @@
     <section class="calorie-calculator-section">
         <h1 class="calorie-calculator-section__title">Calorie Calculator</h1>
 
-        <div v-if="userIsLoggedIn">
+        <div v-if="shouldFillUserData">
             <p class="calorie-calculator-section__info">
                 Since you are still logged in, Neccessary info has been taken from your profile 
             </p>
@@ -63,7 +63,7 @@
         </form>
         
         <div v-if="calories" class="calorie-calculator__result">
-            <p>Your daily calorie needs are: {{ calories }} kcal</p>
+            <p>Your daily calorie needs is: {{ calories }} kcal</p>
         </div>
     </section> 
 </template>
@@ -84,6 +84,7 @@ export default class CalorieCalculator extends Vue {
     private gender = '';
     private activityLevel = '';
     private calories: number | null = null;
+    private shouldFillUserData = false;
 
     @Getter('isLoggedIn') isLoggedIn: boolean;
     @Getter('user') user: User;
@@ -95,6 +96,8 @@ export default class CalorieCalculator extends Vue {
 
     fillUserData() {
         if (this.userIsLoggedIn()) {
+            this.shouldFillUserData = true;
+
             this.weight = this.user.weight;
             this.height = this.user.height;
             this.age = this.user.age;
@@ -164,6 +167,7 @@ export default class CalorieCalculator extends Vue {
 
     &__info {
         padding-bottom: 1rem;
+        font-size: 1.2rem;
     }
 }
 
@@ -177,7 +181,7 @@ export default class CalorieCalculator extends Vue {
         border: .1rem solid $theme-color;
         width: 25rem;
         padding: 2rem;
-        margin: 0 auto;
+        margin: 3rem auto;
 
         &-input {
             margin-bottom: 1rem;
